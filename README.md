@@ -67,3 +67,68 @@ flowchart TD
 ### **Interprétation** : il existe 4 chemins linéairement indépendants dans `iqsort0`. Il faut donc au minimum 4 cas de test pour couvrir la base de chemins. Une valeur de 4 correspond à une fonction simple, peu risquée et facile à tester.
  
 
+## 2.6 Métriques de Halstead
+
+---
+
+### Convention de comptage (CM, slides 43-44)
+
+- **Opérateurs** : éléments de contrôle (`if`, `for`, `return`), déclarations (fonction, type `int`, pointeur `*`), opérateurs d'affectation, arithmétiques, relationnels et d'indexation.
+- **Opérandes** : variables, constantes et **appels de procédures** (`swap`, `iqsort0`), y compris les occurrences dans les déclarations.
+- **Ponctuation non comptée** : `( ) { } ; ,` sont des délimiteurs syntaxiques qui n'agissent sur aucune variable.
+- `++j` et `i++` sont comptés comme un même opérateur distinct `++`.
+
+---
+
+### Opérateurs
+
+| Opérateur | Occurrences | Lignes |
+|---|:-:|---|
+| `void iqsort0(…)` (déclaration de fonction) | 1 | 1 |
+| `int` (déclaration de type) | 3 | 1 (×2), 3 |
+| `*` (déclaration de pointeur) | 1 | 1 |
+| `if` | 2 | 4, 7 |
+| `return` | 1 | 5 |
+| `for` | 1 | 6 |
+| `=` | 2 | 6 (×2) |
+| `<=` | 1 | 4 |
+| `<` | 2 | 6, 7 |
+| `++` | 2 | 6, 8 |
+| `[ ]` (indexation) | 2 | 7 (×2) |
+| `+` | 2 | 11 (×2) |
+| `-` | 2 | 11 (×2) |
+| **Total** | **22** | |
+
+### Opérandes
+
+| Opérande | Occurrences | Lignes |
+|---|:-:|---|
+| `a` | 7 | 1, 7 (×2), 8, 9, 10, 11 |
+| `n` | 4 | 1, 4, 6, 11 |
+| `i` | 6 | 3, 6 (×3), 7, 8 |
+| `j` | 7 | 3, 6, 8, 9, 10, 11 (×2) |
+| `0` | 3 | 6, 7, 9 |
+| `1` | 4 | 4, 6, 11 (×2) |
+| `swap` (appel) | 2 | 8, 9 |
+| `iqsort0` (appel) | 2 | 10, 11 |
+| **Total** | **35** | |
+
+---
+
+### Résultats
+
+| Mesure | Formule | Valeur |
+|---|---|:-:|
+| Opérateurs distincts | $n_t$ | 13 |
+| Occurrences d'opérateurs | $N_t$ | 22 |
+| Opérandes distincts | $n_d$ | 8 |
+| Occurrences d'opérandes | $N_d$ | 35 |
+| Longueur | $N = N_t + N_d$ | **57** |
+| Vocabulaire | $n = n_t + n_d$ | **21** |
+| Volume | $V = N \times \log_2 n = 57 \times \log_2 21$ | **250,36** |
+| Difficulté | $D = \frac{n_t}{2} \times \frac{N_d}{n_d} = 6{,}5 \times 4{,}375$ | **28,44** |
+| Effort | $E = D \times V$ | **7 119,67** |
+
+### **Interprétation** : le volume (≈ 250) reste modeste, ce qui est cohérent avec une fonction courte. La difficulté est en revanche assez élevée pour sa taille : peu d'opérandes distincts sont réutilisés très souvent (`a` et `j` apparaissent 7 fois chacun), ce qui demande de suivre leur valeur tout au long de l'algorithme.
+
+### Ces valeurs dépendent directement de la convention choisie : compter la ponctuation ou les types, ou considérer les appels comme des opérateurs, change tous les résultats.
