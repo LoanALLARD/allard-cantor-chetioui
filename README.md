@@ -1,8 +1,7 @@
-# Loan ALLARD
-
-# Romain CANTOR
-
-# Willem CHETIOUI
+# Equipe
+- ALLARD Loan
+- CANTOR Romain
+- CHETIOUI Willem
 
 ---
 
