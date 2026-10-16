@@ -199,3 +199,24 @@ Chaque poids est le produit d'une base par catégorie (effort relatif d'une inte
 ### $$UFC = 1 \times 1 + 2 \times 1 + 6 \times 1 = \mathbf{9}$$
 
 ### **Interprétation** : Le score est très faible alors que l'algorithme n'est pas trivial. Les points de fonction mesurent les interactions avec l'extérieur, indépendamment de la complexité du code. Ils sont donc peu adapté à un algorithme comme le QuickSort, dont toute la difficultée est interne.
+
+## 2.10 Index de Maintenabilité (MI)
+
+---
+
+### Valeurs utilisées pour `iqsort0`
+
+| Mesure                       | Valeur | Source                                |
+| ---------------------------- | :----: | ------------------------------------- |
+| Volume d'Halstead (HV)       | 250,36 | Onglet Halstead (2.6)                 |
+| Complexité cyclomatique (CC) |   4    | Onglet CC (2.5)                       |
+| Lignes de code (LOC)         |   12   | `loc.sh` sur le code de `iqsort0`     |
+| Commentaires (COM)           |  0 %   | Le code ne contient aucun commentaire |
+
+### Calcul (CM, slide 54)
+
+$$MI = 171 - 5{,}2 \ln(HV) - 0{,}23\,CC - 16{,}2 \ln(LOC) + 50 \sin\sqrt{2{,}46 \times COM}$$
+
+$$MI = 171 - 28{,}72 - 0{,}92 - 40{,}26 + 0 = \mathbf{101{,}11}$$
+
+### **Interprétation** : Le score dépasse le haut de l'échelle de 1 à 100, ce qui traduit une fonction très facile à maintenir. Elle est courte, peu complexe et de faible volume. Sans commentaire, le dernier terme est nul.
