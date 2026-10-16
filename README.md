@@ -1,4 +1,5 @@
 # Equipe
+
 - ALLARD Loan
 - CANTOR Romain
 - CHETIOUI Willem
@@ -172,3 +173,29 @@ Les comptages ($n_t$, $N_t$, $n_d$, $N_d$) et la longueur $N$ restent des mesure
 ---
 
 ### **Conclusion** : Les métriques de Halstead sont difficiles à justifier à deux niveaux, le comptage et les formules. On ne peut donc pas garantir que l'ordre qu'elles donnent entre deux programmes reflète l'ordre réel de complexité, ce qui met en doute leur validité au sens de la théorie de la mesure. C'est pour cela qu'elles sont rarement utilisées seules, mais combinées à d'autres mesures, par exemple dans l'Index de Maintenabilité. (Basé sur l'analyse précédente et le cours)
+
+## 2.9 Points de fonction du QuickSort
+
+---
+
+### Poids
+
+Chaque poids est le produit d'une base par catégorie (effort relatif d'une interaction) et d'un niveau de difficulté (simple = 1, moyen = 2, difficile = 3) :
+
+| Catégorie         | Base | Justification                                              |
+| ----------------- | :--: | ---------------------------------------------------------- |
+| Entrées externes  |  1   | Référence : recevoir une donnée de l'appelant              |
+| Requêtes externes |  1   | Une entrée suivie d'une réponse immédiate, sans traitement |
+| Sorties externes  |  2   | Le résultat doit être calculé avant d'être fourni          |
+| Fichiers externes |  2   | Accès à des données via un mécanisme externe               |
+| Fichiers internes |  3   | Structure de données à concevoir et à maintenir            |
+
+### Scores pour `iqsort0`
+
+- **Entrées externes** : `n`, un entier (simple), et `a`, le tableau à trier (moyen).
+- **Sorties externes** : Le tableau trié (difficile, car il est produit par toute la logique de partition et de récursion).
+- **Requêtes, fichiers internes et externes** : Aucun. Le tri se fait en mémoire, sur le tableau fourni par l'appelant.
+
+### $$UFC = 1 \times 1 + 2 \times 1 + 6 \times 1 = \mathbf{9}$$
+
+### **Interprétation** : Le score est très faible alors que l'algorithme n'est pas trivial. Les points de fonction mesurent les interactions avec l'extérieur, indépendamment de la complexité du code. Ils sont donc peu adapté à un algorithme comme le QuickSort, dont toute la difficultée est interne.
