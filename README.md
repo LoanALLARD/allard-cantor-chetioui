@@ -71,12 +71,12 @@ flowchart TD
 
 ---
 
-### Convention de comptage (CM, slides 43-44)
+### Convention de comptage
 
-- **Opérateurs** : éléments de contrôle (`if`, `for`, `return`), déclarations (fonction, type `int`, pointeur `*`), opérateurs d'affectation, arithmétiques, relationnels et d'indexation.
-- **Opérandes** : variables, constantes et **appels de procédures** (`swap`, `iqsort0`), y compris les occurrences dans les déclarations.
-- **Ponctuation non comptée** : `( ) { } ; ,` sont des délimiteurs syntaxiques qui n'agissent sur aucune variable.
-- `++j` et `i++` sont comptés comme un même opérateur distinct `++`.
+- Les opérateurs sont les mots-clés de contrôle (`if`, `for`, `return`), les déclarations (la fonction, `int`, `*`) et les opérateurs du C (`=`, `<=`, `<`, `++`, `+`, `-`, `[ ]`).
+- Les opérandes sont les variables, les constantes et les appels de fonction (`swap`, `iqsort0`), comme dans le cours.
+- La ponctuation `( ) { } ; ,` n'est pas comptée.
+- `++j` et `i++` comptent comme le même opérateur.
 
 ---
 
@@ -129,9 +129,9 @@ flowchart TD
 | Difficulté               | $D = \frac{n_t}{2} \times \frac{N_d}{n_d} = 6{,}5 \times 4{,}375$ |  **28,44**   |
 | Effort                   | $E = D \times V$                                                  | **7 119,67** |
 
-### **Interprétation** : le volume (≈ 250) reste modeste, ce qui est cohérent avec une fonction courte. La difficulté est en revanche assez élevée pour sa taille : peu d'opérandes distincts sont réutilisés très souvent (`a` et `j` apparaissent 7 fois chacun), ce qui demande de suivre leur valeur tout au long de l'algorithme.
+### Le volume reste modeste, c'est normal pour une fonction aussi courte. La difficulté est plus élevée parce que peu d'opérandes sont réutilisés très souvent, `a` et `j` apparaissent 7 fois chacun.
 
-### Ces valeurs dépendent directement de la convention choisie : compter la ponctuation ou les types, ou considérer les appels comme des opérateurs, change tous les résultats.
+### Ces résultats dépendent beaucoup de la convention. Compter la ponctuation ou classer les appels comme opérateurs changerait tout.
 
 ## 2.7 Validité des métriques de Halstead
 
@@ -139,7 +139,7 @@ flowchart TD
 
 ### Définition d'une mesure valide (Définition du cours)
 
-Une mesure $M : A \to B$ est **valide** par rapport à un système empirique $E = (A, \{R_1, \dots, R_n\})$ si toute relation empirique entre deux entités se retrouve entre leurs mesures :
+Une mesure $M : A \to B$ est **valide** par rapport à un système empirique $E = (A, \{R_1, \dots, R_n\})$ si toute relation empirique entre deux entités se retrouve entre leurs mesures.
 
 $$\forall (a, b) \in R,\ (M(a), M(b)) \in S$$
 
@@ -149,7 +149,7 @@ Si un programme `a` est réellement plus complexe qu'un programme `b`, il faut d
 
 ### 1. Le comptage dépend d'une convention arbitraire
 
-La distinction entre opérateur et opérande n'est pas définie, rien n'impose de compter ou non la ponctuation, les types, ou de classer les appels de fonction d'un côté plutôt que de l'autre. Pour le même code `iqsort0` :
+La frontière entre opérateur et opérande n'est pas fixée. Rien n'oblige à compter la ponctuation ou les types, et sur le même `iqsort0` les résultats changent beaucoup.
 
 | Mesure        | Ponctuation non comptée (2.6) | Ponctuation comptée |
 | ------------- | :---------------------------: | :-----------------: |
@@ -160,19 +160,19 @@ La distinction entre opérateur et opérande n'est pas définie, rien n'impose d
 
 ### Un même programme n'a donc pas une valeur unique. Selon la personne qui mesure, l'effort varie du simple au double. $M$ n'est alors pas une application bien définie et la première condition de validité n'est pas garantie.
 
-### La convention peut même inverser une relation empirique. Écrire `(a + j) + 1` au lieu de `a + j + 1` rend le code au moins aussi lisible, mais si l'on compte les parenthèses $N$ et $V$ augmentent, la mesure indique plus complexe alors que ce n'est pas le cas. De même, `int i, j;` et `int i; int j;` sont équivalents, mais ils ne donnent pas le même $N_t$.
+### La convention peut même inverser l'ordre réel. `(a + j) + 1` n'est pas plus compliqué que `a + j + 1`, pourtant si on compte les parenthèses $N$ et $V$ augmentent. Pareil pour `int i, j;` et `int i; int j;` qui ne donnent pas le même $N_t$.
 
 ---
 
 ### 2. Les formules ne reposent pas sur des relations empiriques démontrées
 
-Les comptages ($n_t$, $N_t$, $n_d$, $N_d$) et la longueur $N$ restent des mesures de taille assez intuitives. Un programme plus long a plus de symboles. En revanche rien ne justifie expérimentalement les formules du volume, de la difficulté et de l'effort.
+Les comptages et la longueur $N$ restent intuitifs, un programme plus long a plus de symboles. Par contre aucune expérience ne justifie les formules du volume, de la difficulté et de l'effort. Pourquoi un $\log_2$, pourquoi diviser $n_t$ par 2 ?
 
-### Or une relation empirique doit s'appuyer sur des preuves vérifiables, comme des résultats expérimentaux. Sans ces preuve, on ne peut pas affirmer qu'un programme avec une difficulté $D$ plus élevée est réellement plus difficile à comprendre. La relation plus difficile que n'est pas démontrée comme étant préservée par $D$, ni demande plus d'effort que par $E$.
+### Or une relation empirique doit reposer sur des preuves vérifiables. Sans elles, rien ne dit qu'un programme avec un $D$ plus grand est vraiment plus dur à comprendre.
 
 ---
 
-### **Conclusion** : Les métriques de Halstead sont difficiles à justifier à deux niveaux, le comptage et les formules. On ne peut donc pas garantir que l'ordre qu'elles donnent entre deux programmes reflète l'ordre réel de complexité, ce qui met en doute leur validité au sens de la théorie de la mesure. C'est pour cela qu'elles sont rarement utilisées seules, mais combinées à d'autres mesures, par exemple dans l'Index de Maintenabilité. (Basé sur l'analyse précédente et le cours)
+### Les métriques de Halstead sont donc difficiles à justifier à deux niveaux, le comptage et les formules. On ne peut pas garantir que l'ordre qu'elles donnent entre deux programmes correspond à leur vraie complexité, ce qui met en doute leur validité. C'est pour ça qu'on les utilise rarement seules, plutôt combinées à d'autres mesures comme dans le MI. (Basé sur l'analyse précédente et le cours)
 
 ## 2.9 Points de fonction du QuickSort
 
@@ -180,11 +180,11 @@ Les comptages ($n_t$, $N_t$, $n_d$, $N_d$) et la longueur $N$ restent des mesure
 
 ### Poids
 
-Chaque poids est le produit d'une base par catégorie (effort relatif d'une interaction) et d'un niveau de difficulté (simple = 1, moyen = 2, difficile = 3) :
+Chaque poids vaut la base de la catégorie multipliée par le niveau, 1 pour simple, 2 pour moyen et 3 pour difficile.
 
 | Catégorie         | Base | Justification                                              |
 | ----------------- | :--: | ---------------------------------------------------------- |
-| Entrées externes  |  1   | Référence : recevoir une donnée de l'appelant              |
+| Entrées externes  |  1   | Recevoir une donnée, c'est notre référence             |
 | Requêtes externes |  1   | Une entrée suivie d'une réponse immédiate, sans traitement |
 | Sorties externes  |  2   | Le résultat doit être calculé avant d'être fourni          |
 | Fichiers externes |  2   | Accès à des données via un mécanisme externe               |
@@ -192,13 +192,13 @@ Chaque poids est le produit d'une base par catégorie (effort relatif d'une inte
 
 ### Scores pour `iqsort0`
 
-- **Entrées externes** : `n`, un entier (simple), et `a`, le tableau à trier (moyen).
-- **Sorties externes** : Le tableau trié (difficile, car il est produit par toute la logique de partition et de récursion).
-- **Requêtes, fichiers internes et externes** : Aucun. Le tri se fait en mémoire, sur le tableau fourni par l'appelant.
+- Deux entrées externes, `n` qui est simple et le tableau `a` qui est moyen.
+- Une sortie externe difficile, le tableau trié, qui demande toute la partition et la récursion.
+- Pas de requête ni de fichier, tout se fait en mémoire.
 
 ### $$UFC = 1 \times 1 + 2 \times 1 + 6 \times 1 = \mathbf{9}$$
 
-### **Interprétation** : Le score est très faible alors que l'algorithme n'est pas trivial. Les points de fonction mesurent les interactions avec l'extérieur, indépendamment de la complexité du code. Ils sont donc peu adapté à un algorithme comme le QuickSort, dont toute la difficultée est interne.
+### Le score est très faible alors que l'algorithme n'est pas si simple. Les points de fonction ne regardent que les échanges avec l'extérieur, ils sont donc peu adaptés au QuickSort dont toute la difficulté est interne.
 
 ## 2.10 Index de Maintenabilité (MI)
 
@@ -213,13 +213,13 @@ Chaque poids est le produit d'une base par catégorie (effort relatif d'une inte
 | Lignes de code (LOC)         |   12   | `loc.sh` sur le code de `iqsort0`     |
 | Commentaires (COM)           |  0 %   | Le code ne contient aucun commentaire |
 
-### Calcul (CM, slide 54)
+### Calcul
 
 $$MI = 171 - 5{,}2 \ln(HV) - 0{,}23\,CC - 16{,}2 \ln(LOC) + 50 \sin\sqrt{2{,}46 \times COM}$$
 
 $$MI = 171 - 28{,}72 - 0{,}92 - 40{,}26 + 0 = \mathbf{101{,}11}$$
 
-### **Interprétation** : Le score dépasse le haut de l'échelle de 1 à 100, ce qui traduit une fonction très facile à maintenir. Elle est courte, peu complexe et de faible volume. Sans commentaire, le dernier terme est nul.
+### On dépasse le haut de l'échelle de 1 à 100, la fonction est donc très facile à maintenir. Elle est courte et peu complexe, et sans commentaire le dernier terme vaut 0.
 
 ## 2.11 MI du code commenté
 
@@ -237,6 +237,36 @@ $$MI = 171 - 28{,}72 - 0{,}92 - 40{,}26 + 0 = \mathbf{101{,}11}$$
 
 $$MI = 171 - 28{,}72 - 0{,}92 - 16{,}2 \ln(26) + 50 \sin\sqrt{2{,}46 \times 0{,}5385} = 171 - 28{,}72 - 0{,}92 - 52{,}78 + 45{,}66 = \mathbf{134{,}24}$$
 
-### COM est utilisé comme un ratio entre 0 et 1, comme le stocke une cellule au format pourcentage du tableur (53,85 % = 0,5385). Avec ce choix, le coefficient 2,46 ≈ π²/4 fait passer le terme des commentaires de 0 (aucun commentaire) à 50 (100 % de commentaires).
+### COM est pris comme un ratio entre 0 et 1, c'est ce que stocke le tableur dans une cellule en pourcentage.
 
-### **Interprétation** : Les commentaires font gagner environ 33 points. Le terme des commentaires (+45,66) compense largement la pénalité due à l'augmentation du nombre de lignes (−52,78 au lieu de −40,26). Le MI récompense donc la documentation du code, mais il ne juge que la quantité de commentaires, pas leur qualité. Des commentaires inutiles augmenteraient le score de la même façon.
+### Les commentaires font gagner environ 33 points. Leur bonus (+45,66) compense largement les lignes en plus (−52,78 au lieu de −40,26). Par contre le MI ne regarde que la quantité de commentaires, pas leur qualité.
+
+## 2.12 Facteur de complexité technique (TFC)
+
+---
+
+### On a choisi I-AMU_Web_APP, notre application web qui donne aux étudiants un accès encadré à un LLM local. Elle tourne sous Docker avec PHP, PostgreSQL et Ollama et compte 524 commits sur GitHub.
+
+### Chaque facteur est noté de 0 à 5 selon son influence.
+
+| #   | Facteur technique                               | Score | Justification                                                       |
+| --- | ----------------------------------------------- | :---: | ------------------------------------------------------------------- |
+| F1  | Sauvegarde et récupération fiables              |   3   | Données importantes mais juste un volume Docker, pas de vraie sauvegarde |
+| F2  | Communications de données                       |   4   | HTTP, appels à l'API d'Ollama et envoi de mails                     |
+| F3  | Traitement distribué                            |   3   | Application, base et LLM dans des conteneurs séparés                |
+| F4  | Performances critiques                          |   3   | Le LLM doit répondre vite pendant les séances                       |
+| F5  | Environnement existant et fortement utilisé     |   2   | Prévue pour les serveurs d'AMU mais isolée dans Docker              |
+| F6  | Entrées de données en ligne                     |   5   | Tout est saisi en ligne                                             |
+| F7  | Entrées sur plusieurs écrans ou opérations      |   3   | Inscription avec validation de l'email, création et accès aux sessions |
+| F8  | Fichiers maîtres mis à jour en ligne            |   4   | La base est mise à jour à chaque message                            |
+| F9  | Entrées, sorties, fichiers ou requêtes complexes |   3   | Import de PDF, export JSON, requêtes au LLM avec contexte           |
+| F10 | Traitement interne complexe                     |   3   | 5 rôles, cycle de vie des sessions, adaptateurs LLM                 |
+| F11 | Code réutilisable                               |   3   | MVC + Domain et adaptateur LLM interchangeable                      |
+| F12 | Conversion et installation prévues              |   4   | Docker Compose et scripts SQL testés en CI                          |
+| F13 | Installations multiples dans plusieurs organisations |   2   | Domaines email configurables mais pensée pour AMU               |
+| F14 | Facilité de changement et d'utilisation         |   4   | Modèles et domaines configurables sans toucher au code, guide utilisateur |
+|     | **Total ΣF**                                    | **46** |                                                                    |
+
+$$TFC = 0{,}65 + 0{,}01 \times \sum_{i=1}^{14} F_i = 0{,}65 + 0{,}01 \times 46 = \mathbf{1{,}11}$$
+
+### Le TFC va de 0,65 à 1,35. Avec 1,11 I-AMU est un peu au-dessus de la moyenne, ça ajouterait 11 % aux points de fonction. Ce sont surtout la saisie en ligne et la base mise à jour en continu qui pèsent, c'est classique pour une application web.
