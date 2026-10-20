@@ -303,3 +303,49 @@ $$TFC = 0{,}65 + 0{,}01 \times \sum_{i=1}^{14} F_i = 0{,}65 + 0{,}01 \times 46 =
 ### Pour l'UFC on reprend les poids de la 2.9. Il y a trois entrées (la masse, le carburant et la propulsion d'un engin), trois sorties (la consommation, le message de conduite et la description) et trois requêtes (consulter un engin, une propulsion ou les carburants), ce qui donne 15.
 
 ### Pour le TFC presque tous les facteurs sont à 0, il n'y a ni base, ni réseau, ni interface. Seuls la réutilisabilité (3), la facilité de changement (3), les entrées-sorties (1), le traitement (1) et l'installation (1) comptent, soit une somme de 9.
+
+## 2.14 Couplage et absence de cohésion
+
+---
+
+### Le comptage est fait à la main sur les 11 classes de r201DOOEngins-ENS, en suivant les définitions du cours.
+
+### Couplage (CBO)
+
+### Deux classes sont couplées quand l'une lit ou écrit une variable de l'autre ou appelle une de ses méthodes, constructeurs compris. Pour un appel polymorphe on compte toutes les implémentations possibles, par exemple `getPropulsion().consommerEnergie()` couple `Roulant` à `Propulsion`, `Thermique`, `Electrique` et `Eolienne`. Les simples déclarations de type et les classes de Java comme `String` ne comptent pas.
+
+| Classe | CBO |
+| --- | :---: |
+| Carburant | 3 |
+| Propulsion | 6 |
+| Electrique | 5 |
+| Eolienne | 4 |
+| Thermique | 6 |
+| Engin | 4 |
+| Roulant | 7 |
+| Flottant | 7 |
+| Main | 6 |
+| Marker | 0 |
+| ExamEnginsTest | 8 |
+
+### Le CBO moyen est de 5,09. `Roulant` et `Flottant` sont les plus couplées à cause du polymorphisme, et `Marker` n'est utilisée par personne, c'est du code mort.
+
+### Absence de cohésion (LCOM)
+
+### Pour chaque classe on compte les paires de méthodes qui ne partagent aucun attribut (P) et celles qui en partagent au moins un (Q). LCOM vaut P − Q, ramené à 0 s'il est négatif. On prend les méthodes qui ont un corps, constructeurs compris.
+
+| Classe | Méthodes | P | Q | LCOM |
+| --- | :---: | :---: | :---: | :---: |
+| Carburant | 3 | 2 | 1 | 1 |
+| Propulsion | 0 | 0 | 0 | 0 |
+| Electrique | 9 | 20 | 16 | 4 |
+| Eolienne | 2 | 1 | 0 | 1 |
+| Thermique | 9 | 16 | 20 | 0 |
+| Engin | 6 | 10 | 5 | 5 |
+| Roulant | 2 | 1 | 0 | 1 |
+| Flottant | 2 | 1 | 0 | 1 |
+| Main | 1 | 0 | 0 | 0 |
+| Marker | 0 | 0 | 0 | 0 |
+| ExamEnginsTest | 24 | 276 | 0 | 276 |
+
+### `Thermique` est la classe la plus cohésive, presque toutes ses méthodes touchent `masse` ou `carburant`. `Engin` et `Electrique` ont beaucoup de getters et setters qui ne touchent chacun qu'un attribut, ce qui fait monter leur LCOM. La classe de tests a un LCOM énorme mais c'est normal, chaque test est indépendant et n'utilise aucun attribut.
