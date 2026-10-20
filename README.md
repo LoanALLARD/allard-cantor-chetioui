@@ -270,3 +270,36 @@ $$MI = 171 - 28{,}72 - 0{,}92 - 16{,}2 \ln(26) + 50 \sin\sqrt{2{,}46 \times 0{,}
 $$TFC = 0{,}65 + 0{,}01 \times \sum_{i=1}^{14} F_i = 0{,}65 + 0{,}01 \times 46 = \mathbf{1{,}11}$$
 
 ### Le TFC va de 0,65 à 1,35. Avec 1,11 I-AMU est un peu au-dessus de la moyenne, ça ajouterait 11 % aux points de fonction. Ce sont surtout la saisie en ligne et la base mise à jour en continu qui pèsent, c'est classique pour une application web.
+
+## 2.13 Mesures du projet r201DOOEngins-ENS
+
+---
+
+### Le dépôt [IUTInfoAix-R2-01/r201DOOEngins-ENS](https://github.com/IUTInfoAix-R2-01/r201DOOEngins-ENS) est un exercice Java de R2.01 avec 11 fichiers, dont un fichier de tests JUnit.
+
+### On a utilisé `loc.sh` pour le LOC, [lizard](https://github.com/terryyin/lizard) pour la complexité cyclomatique et [multimetric](https://github.com/priv-kweihmann/multimetric) pour Halstead. Le MI est recalculé avec la formule du cours, celui de multimetric n'utilise pas la même.
+
+| Mesure | Valeur |
+| --- | :---: |
+| LOC (dossier `src`) | 548 |
+| Méthodes | 58 |
+| CC totale / maximale | 68 / 4 |
+| Halstead $n_t$ / $N_t$ / $n_d$ / $N_d$ | 71 / 1241 / 131 / 739 |
+| Volume V | 15 163,26 |
+| Difficulté D | 200,26 |
+| Effort E | 3 036 645 |
+| COM | 11,68 % |
+| MI moyen par fichier | 104,18 |
+| MI du projet entier | 28,68 |
+| UFC | 15 |
+| TFC | 0,74 |
+
+### Presque toutes les méthodes ont une CC de 1. Les plus complexes sont `Carburant.nom` et `Carburant.getConso` avec un `switch` à 4 chemins.
+
+### multimetric compte la ponctuation dans les opérateurs, ses chiffres Halstead ne sont donc pas comparables à ceux de la 2.6.
+
+### Le MI se calcule normalement fichier par fichier. Sur le projet entier, le LOC et le volume sont tellement grands que le score tombe à 28, ce qui ne veut pas dire grand-chose. Le fichier de tests est le moins maintenable avec 45,57, les autres fichiers sont autour de 100.
+
+### Pour l'UFC on reprend les poids de la 2.9. Il y a trois entrées (la masse, le carburant et la propulsion d'un engin), trois sorties (la consommation, le message de conduite et la description) et trois requêtes (consulter un engin, une propulsion ou les carburants), ce qui donne 15.
+
+### Pour le TFC presque tous les facteurs sont à 0, il n'y a ni base, ni réseau, ni interface. Seuls la réutilisabilité (3), la facilité de changement (3), les entrées-sorties (1), le traitement (1) et l'installation (1) comptent, soit une somme de 9.
