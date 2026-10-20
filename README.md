@@ -349,3 +349,36 @@ $$TFC = 0{,}65 + 0{,}01 \times \sum_{i=1}^{14} F_i = 0{,}65 + 0{,}01 \times 46 =
 | ExamEnginsTest | 24 | 276 | 0 | 276 |
 
 ### `Thermique` est la classe la plus cohésive, presque toutes ses méthodes touchent `masse` ou `carburant`. `Engin` et `Electrique` ont beaucoup de getters et setters qui ne touchent chacun qu'un attribut, ce qui fait monter leur LCOM. La classe de tests a un LCOM énorme mais c'est normal, chaque test est indépendant et n'utilise aucun attribut.
+
+# TP2 Mesures d'impact environnemental
+
+## 1.1 Simulations de physique des particules
+
+---
+
+### On reprend l'expérience Geant4 de l'article Green Algorithms (Lannelongue et al., 2021). Une expérience dure 3 semaines sur un Xeon E5-2680 avec 24 threads sur 12 cœurs et 10 Go de mémoire.
+
+| Paramètre | Valeur | Source |
+| --- | :---: | --- |
+| t | 504 h | 3 semaines |
+| nc × Pc | 12 × 10 W | Xeon E5-2680 v3, 120 W de TDP pour 12 cœurs |
+| uc | 1 | Valeur par défaut du cours |
+| nm × Pm | 10 × 0,3725 W | Mémoire |
+| PUE | 1,67 | Moyenne mondiale |
+| CI | 475 gCO2e/kWh | Moyenne mondiale |
+
+$$E = t \times (n_c \times P_c \times u_c + n_m \times P_m) \times PUE \times 0{,}001 = 504 \times (120 + 3{,}725) \times 1{,}67 \times 0{,}001 = \mathbf{104{,}14\ kWh}$$
+
+$$C = E \times CI = 104{,}14 \times 475 = \mathbf{49{,}47\ kgCO_2e}$$
+
+### Vérification avec le site Green Algorithms
+
+### Avec ses valeurs par défaut le calculateur donne 97,28 kWh et 46,69 kg, parce qu'il utilise maintenant un PUE de 1,56 et une intensité carbone mondiale de 480. En remettant 1,67 et 475 on retrouve exactement 104,14 kWh et 49,47 kg, comme les 49 465 g de l'article. Le E5-2680 n'est plus dans la liste du site, on a donc saisi ses caractéristiques à la main.
+
+### Les 11 niveaux d'énergie
+
+### Chaque niveau d'énergie est une expérience complète de 3 semaines. On l'intègre avec le facteur d'échelle pragmatique PSF = 11, ce qui donne 49,47 × 11 = 544,12 kgCO2e pour toute l'étude. Le site donne la même valeur avec un facteur multiplicatif de 11, et l'article annonce 544 115 g.
+
+### Absorption par un arbre
+
+### Un arbre adulte absorbe environ 11 kg de CO2 par an. Il lui faut donc 4,5 ans pour une seule expérience et 49,5 ans pour toute l'étude, soit environ 593 mois-arbres comme dans l'article.
