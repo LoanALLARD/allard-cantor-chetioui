@@ -220,3 +220,23 @@ $$MI = 171 - 5{,}2 \ln(HV) - 0{,}23\,CC - 16{,}2 \ln(LOC) + 50 \sin\sqrt{2{,}46 
 $$MI = 171 - 28{,}72 - 0{,}92 - 40{,}26 + 0 = \mathbf{101{,}11}$$
 
 ### **Interprétation** : Le score dépasse le haut de l'échelle de 1 à 100, ce qui traduit une fonction très facile à maintenir. Elle est courte, peu complexe et de faible volume. Sans commentaire, le dernier terme est nul.
+
+## 2.11 MI du code commenté
+
+---
+
+### Le code commenté se trouve dans [`src/iqsort0.c`](src/iqsort0.c).
+
+| Mesure                       | Code initial | Code commenté | Remarque                                                    |
+| ---------------------------- | :----------: | :-----------: | ----------------------------------------------------------- |
+| Volume d'Halstead (HV)       |    250,36    |    250,36     | Les commentaires ne sont ni des opérateurs ni des opérandes |
+| Complexité cyclomatique (CC) |      4       |       4       | Le graphe de flot de contrôle ne change pas                 |
+| Lignes de code (LOC)         |      12      |      26       | `./loc.sh src`                                              |
+| Commentaires (COM)           |     0 %      |    53,85 %    | 14 lignes de commentaire sur 26                             |
+| **MI**                       |  **101,11**  |  **134,24**   |                                                             |
+
+$$MI = 171 - 28{,}72 - 0{,}92 - 16{,}2 \ln(26) + 50 \sin\sqrt{2{,}46 \times 0{,}5385} = 171 - 28{,}72 - 0{,}92 - 52{,}78 + 45{,}66 = \mathbf{134{,}24}$$
+
+### COM est utilisé comme un ratio entre 0 et 1, comme le stocke une cellule au format pourcentage du tableur (53,85 % = 0,5385). Avec ce choix, le coefficient 2,46 ≈ π²/4 fait passer le terme des commentaires de 0 (aucun commentaire) à 50 (100 % de commentaires).
+
+### **Interprétation** : Les commentaires font gagner environ 33 points. Le terme des commentaires (+45,66) compense largement la pénalité due à l'augmentation du nombre de lignes (−52,78 au lieu de −40,26). Le MI récompense donc la documentation du code, mais il ne juge que la quantité de commentaires, pas leur qualité. Des commentaires inutiles augmenteraient le score de la même façon.
