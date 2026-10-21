@@ -408,3 +408,30 @@ $$C = 1\,588{,}23 \times 475 = \mathbf{754{,}41\ kgCO_2e}$$
 ### La recherche des hyperparamètres oblige à relancer l'entraînement de nombreuses fois. Avec un PSF de 100 on obtient 754,41 × 100 = 75 440,74 kgCO2e, soit environ 75,4 tonnes, comme les 75 440 740 g de l'article.
 
 ### Sur le site Green Algorithms la version actuelle des données compte 250 W par V100 et donne 628,67 kg. En choisissant la version v2.0 des données, qui compte 300 W, le site retrouve exactement 754,41 kg.
+
+## 2.1 Formule de l'EcoIndex dans le code de cnumr
+
+---
+
+### La formule du cours est la suivante.
+
+$$EcoIndex = 100 - 5 \times \frac{3 \times Q(DOM) + 2 \times Q(requêtes) + Q(taille)}{6}$$
+
+$$Q(x) = (n - 1) + \frac{x - borneInf(n)}{borneSup(n) - borneInf(n)}$$
+
+### On a parcouru les projets de cnumr qui calculent l'EcoIndex.
+
+| Projet | Langage | Formule du cours | Remarque |
+| --- | :---: | :---: | --- |
+| [EcoIndex_python](https://github.com/cnumr/EcoIndex_python) | Python | Oui | Score arrondi à l'entier, utilisé par l'API Ecoindex |
+| [ecoindex_js](https://github.com/cnumr/ecoindex_js) | JavaScript | Oui | Score non arrondi |
+| [ecoindex_node](https://github.com/cnumr/ecoindex_node) | JavaScript | Oui | Score arrondi à l'entier |
+| [GreenIT-Analysis](https://github.com/cnumr/GreenIT-Analysis) | JavaScript | Oui | Bornes écrites en dur dans le code |
+| [lighthouse-plugin-ecoindex](https://github.com/cnumr/lighthouse-plugin-ecoindex) | TypeScript | Oui | Reprend le code de ecoindex_js |
+| [EcoIndex_BFF](https://github.com/cnumr/EcoIndex_BFF) | Go | Pas de calcul | Relaie les requêtes vers l'API Ecoindex |
+
+### Partout on retrouve les poids 3, 2 et 1 et la même fonction quantile. Le code cherche le premier intervalle qui contient la valeur, prend son numéro moins 1 et ajoute la position de la valeur entre les deux bornes, exactement comme dans le cours. Au-delà de la dernière borne le quantile est bloqué à 20.
+
+### Les 21 bornes de chaque critère sont identiques à celles du dépôt [ecoindex_reference](https://github.com/cnumr/ecoindex_reference), même quand elles sont recopiées en dur.
+
+### Les seules différences portent sur l'arrondi. Certains projets arrondissent le score à l'entier et d'autres non. Pour les gaz à effet de serre et l'eau, tous utilisent les formules du cours $2 + 2 \times (50 - EcoIndex)/100$ et $3 + 3 \times (50 - EcoIndex)/100$, arrondies à deux décimales.
