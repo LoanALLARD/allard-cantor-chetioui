@@ -13,18 +13,18 @@
 Implémentation simplifiée du QuickSort :
 
 ```c
- 1  void iqsort0(int *a, int n)
- 2  {
- 3      int i, j;
- 4      if (n <= 1)
- 5          return;
- 6      for (i = 1, j = 0; i < n; i++)
- 7          if (a[i] < a[0])
- 8              swap(++j, i, a);
- 9      swap(0, j, a);
-10      iqsort0(a, j);
-11      iqsort0(a + j + 1, n - j - 1);
-12  }
+1 void iqsort0(int *a, int n)
+2 {
+3 int i, j;
+4 if (n <= 1)
+5 return;
+6 for (i = 1, j = 0; i < n; i++)
+7 if (a[i] < a[0])
+8 swap(++j, i, a);
+9 swap(0, j, a);
+10 iqsort0(a, j);
+11 iqsort0(a + j + 1, n - j - 1);
+12 }
 ```
 
 ---
@@ -33,18 +33,18 @@ Implémentation simplifiée du QuickSort :
 
 ```mermaid
 flowchart TD
-  S([Entrée]) --> B1{"B1 : if n #lt;= 1<br/>ligne 4"}
-  B1 -- vrai --> B2["B2 : return<br/>ligne 5"]
-  B1 -- faux --> B3["B3 : i = 1, j = 0<br/>ligne 6"]
-  B3 --> B4{"B4 : i #lt; n<br/>ligne 6"}
-  B4 -- vrai --> B5{"B5 : a[i] #lt; a[0]<br/>ligne 7"}
-  B4 -- faux --> B8["B8 : lignes 9 à 11<br/>swap(0, j, a)<br/>iqsort0(a, j)<br/>iqsort0(a+j+1, n-j-1)"]
-  B5 -- vrai --> B6["B6 : swap(++j, i, a)<br/>ligne 8"]
-  B5 -- faux --> B7
-  B6 --> B7["B7 : i++<br/>ligne 6"]
-  B7 --> B4
-  B2 --> E([Sortie])
-  B8 --> E
+S([Entrée]) --> B1{"B1 : if n #lt;= 1<br/>ligne 4"}
+B1 -- vrai --> B2["B2 : return<br/>ligne 5"]
+B1 -- faux --> B3["B3 : i = 1, j = 0<br/>ligne 6"]
+B3 --> B4{"B4 : i #lt; n<br/>ligne 6"}
+B4 -- vrai --> B5{"B5 : a[i] #lt; a[0]<br/>ligne 7"}
+B4 -- faux --> B8["B8 : lignes 9 à 11<br/>swap(0, j, a)<br/>iqsort0(a, j)<br/>iqsort0(a+j+1, n-j-1)"]
+B5 -- vrai --> B6["B6 : swap(++j, i, a)<br/>ligne 8"]
+B5 -- faux --> B7
+B6 --> B7["B7 : i++<br/>ligne 6"]
+B7 --> B4
+B2 --> E([Sortie])
+B8 --> E
 ```
 
 ## 2.5 Complexité cyclomatique
@@ -82,52 +82,52 @@ flowchart TD
 
 ### Opérateurs
 
-| Opérateur                                   | Occurrences | Lignes    |
+| Opérateur | Occurrences | Lignes |
 | ------------------------------------------- | :---------: | --------- |
-| `void iqsort0(…)` (déclaration de fonction) |      1      | 1         |
-| `int` (déclaration de type)                 |      3      | 1 (×2), 3 |
-| `*` (déclaration de pointeur)               |      1      | 1         |
-| `if`                                        |      2      | 4, 7      |
-| `return`                                    |      1      | 5         |
-| `for`                                       |      1      | 6         |
-| `=`                                         |      2      | 6 (×2)    |
-| `<=`                                        |      1      | 4         |
-| `<`                                         |      2      | 6, 7      |
-| `++`                                        |      2      | 6, 8      |
-| `[ ]` (indexation)                          |      2      | 7 (×2)    |
-| `+`                                         |      2      | 11 (×2)   |
-| `-`                                         |      2      | 11 (×2)   |
-| **Total**                                   |   **22**    |           |
+| `void iqsort0(…)` (déclaration de fonction) | 1 | 1 |
+| `int` (déclaration de type) | 3 | 1 (×2), 3 |
+| `*` (déclaration de pointeur) | 1 | 1 |
+| `if` | 2 | 4, 7 |
+| `return` | 1 | 5 |
+| `for` | 1 | 6 |
+| `=` | 2 | 6 (×2) |
+| `<=` | 1 | 4 |
+| `<` | 2 | 6, 7 |
+| `++` | 2 | 6, 8 |
+| `[ ]` (indexation) | 2 | 7 (×2) |
+| `+` | 2 | 11 (×2) |
+| `-` | 2 | 11 (×2) |
+| **Total** | **22** | |
 
 ### Opérandes
 
-| Opérande          | Occurrences | Lignes                  |
+| Opérande | Occurrences | Lignes |
 | ----------------- | :---------: | ----------------------- |
-| `a`               |      7      | 1, 7 (×2), 8, 9, 10, 11 |
-| `n`               |      4      | 1, 4, 6, 11             |
-| `i`               |      6      | 3, 6 (×3), 7, 8         |
-| `j`               |      7      | 3, 6, 8, 9, 10, 11 (×2) |
-| `0`               |      3      | 6, 7, 9                 |
-| `1`               |      4      | 4, 6, 11 (×2)           |
-| `swap` (appel)    |      2      | 8, 9                    |
-| `iqsort0` (appel) |      2      | 10, 11                  |
-| **Total**         |   **35**    |                         |
+| `a` | 7 | 1, 7 (×2), 8, 9, 10, 11 |
+| `n` | 4 | 1, 4, 6, 11 |
+| `i` | 6 | 3, 6 (×3), 7, 8 |
+| `j` | 7 | 3, 6, 8, 9, 10, 11 (×2) |
+| `0` | 3 | 6, 7, 9 |
+| `1` | 4 | 4, 6, 11 (×2) |
+| `swap` (appel) | 2 | 8, 9 |
+| `iqsort0` (appel) | 2 | 10, 11 |
+| **Total** | **35** | |
 
 ---
 
 ### Résultats
 
-| Mesure                   | Formule                                                           |    Valeur    |
+| Mesure | Formule | Valeur |
 | ------------------------ | ----------------------------------------------------------------- | :----------: |
-| Opérateurs distincts     | $n_t$                                                             |      13      |
-| Occurrences d'opérateurs | $N_t$                                                             |      22      |
-| Opérandes distincts      | $n_d$                                                             |      8       |
-| Occurrences d'opérandes  | $N_d$                                                             |      35      |
-| Longueur                 | $N = N_t + N_d$                                                   |    **57**    |
-| Vocabulaire              | $n = n_t + n_d$                                                   |    **21**    |
-| Volume                   | $V = N \times \log_2 n = 57 \times \log_2 21$                     |  **250,36**  |
-| Difficulté               | $D = \frac{n_t}{2} \times \frac{N_d}{n_d} = 6{,}5 \times 4{,}375$ |  **28,44**   |
-| Effort                   | $E = D \times V$                                                  | **7 119,67** |
+| Opérateurs distincts | $n_t$ | 13 |
+| Occurrences d'opérateurs | $N_t$ | 22 |
+| Opérandes distincts | $n_d$ | 8 |
+| Occurrences d'opérandes | $N_d$ | 35 |
+| Longueur | $N = N_t + N_d$ | **57** |
+| Vocabulaire | $n = n_t + n_d$ | **21** |
+| Volume | $V = N \times \log_2 n = 57 \times \log_2 21$ | **250,36** |
+| Difficulté | $D = \frac{n_t}{2} \times \frac{N_d}{n_d} = 6{,}5 \times 4{,}375$ | **28,44** |
+| Effort | $E = D \times V$ | **7 119,67** |
 
 ### Le volume reste modeste, c'est normal pour une fonction aussi courte. La difficulté est plus élevée parce que peu d'opérandes sont réutilisés très souvent, `a` et `j` apparaissent 7 fois chacun.
 
@@ -151,12 +151,12 @@ Si un programme `a` est réellement plus complexe qu'un programme `b`, il faut d
 
 La frontière entre opérateur et opérande n'est pas fixée. Rien n'oblige à compter la ponctuation ou les types, et sur le même `iqsort0` les résultats changent beaucoup.
 
-| Mesure        | Ponctuation non comptée (2.6) | Ponctuation comptée |
+| Mesure | Ponctuation non comptée (2.6) | Ponctuation comptée |
 | ------------- | :---------------------------: | :-----------------: |
-| $n_t$ / $N_t$ |            13 / 22            |       17 / 48       |
-| Volume V      |            250,36             |       385,44        |
-| Difficulté D  |             28,44             |        37,19        |
-| Effort E      |           7 119,67            |      14 333,55      |
+| $n_t$ / $N_t$ | 13 / 22 | 17 / 48 |
+| Volume V | 250,36 | 385,44 |
+| Difficulté D | 28,44 | 37,19 |
+| Effort E | 7 119,67 | 14 333,55 |
 
 ### Un même programme n'a donc pas une valeur unique. Selon la personne qui mesure, l'effort varie du simple au double. $M$ n'est alors pas une application bien définie et la première condition de validité n'est pas garantie.
 
@@ -182,6 +182,7 @@ Les comptages et la longueur $N$ restent intuitifs, un programme plus long a plu
 
 Chaque poids vaut la base de la catégorie multipliée par le niveau, 1 pour simple, 2 pour moyen et 3 pour difficile.
 
+<<<<<<< HEAD
 | Catégorie         | Base | Justification                                              |
 | ----------------- | :--: | ---------------------------------------------------------- |
 | Entrées externes  |  1   | Recevoir une donnée, c'est notre référence             |
@@ -189,6 +190,15 @@ Chaque poids vaut la base de la catégorie multipliée par le niveau, 1 pour sim
 | Sorties externes  |  2   | Le résultat doit être calculé avant d'être fourni          |
 | Fichiers externes |  2   | Accès à des données via un mécanisme externe               |
 | Fichiers internes |  3   | Structure de données à concevoir et à maintenir            |
+=======
+| Catégorie | Base | Justification |
+| ----------------- | :--: | ---------------------------------------------------------- |
+| Entrées externes | 1 | Recevoir une donnée, c'est notre référence |
+| Requêtes externes | 1 | Une entrée suivie d'une réponse immédiate, sans traitement |
+| Sorties externes | 2 | Le résultat doit être calculé avant d'être fourni |
+| Fichiers externes | 2 | Accès à des données via un mécanisme externe |
+| Fichiers internes | 3 | Structure de données à concevoir et à maintenir |
+>>>>>>> 725022b (docs: formule de la fonction ajout-tp2-quantile)
 
 ### Scores pour `iqsort0`
 
@@ -206,12 +216,21 @@ Chaque poids vaut la base de la catégorie multipliée par le niveau, 1 pour sim
 
 ### Valeurs utilisées pour `iqsort0`
 
+<<<<<<< HEAD
 | Mesure                       | Valeur | Source                                |
 | ---------------------------- | :----: | ------------------------------------- |
 | Volume d'Halstead (HV)       | 250,36 | Onglet Halstead (2.6)                 |
 | Complexité cyclomatique (CC) |   4    | Onglet CC (2.5)                       |
 | Lignes de code (LOC)         |   12   | `loc.sh` sur le code de `iqsort0`     |
 | Commentaires (COM)           |  0 %   | Le code ne contient aucun commentaire |
+=======
+| Mesure | Valeur | Source |
+| ---------------------------- | :----: | ------------------------------------- |
+| Volume d'Halstead (HV) | 250,36 | Onglet Halstead (2.6) |
+| Complexité cyclomatique (CC) | 4 | Onglet CC (2.5) |
+| Lignes de code (LOC) | 12 | `loc.sh` sur le code de `iqsort0` |
+| Commentaires (COM) | 0 % | Le code ne contient aucun commentaire |
+>>>>>>> 725022b (docs: formule de la fonction ajout-tp2-quantile)
 
 ### Calcul
 
@@ -227,6 +246,7 @@ $$MI = 171 - 28{,}72 - 0{,}92 - 40{,}26 + 0 = \mathbf{101{,}11}$$
 
 ### Le code commenté se trouve dans [`src/iqsort0.c`](src/iqsort0.c).
 
+<<<<<<< HEAD
 | Mesure                       | Code initial | Code commenté | Remarque                                                    |
 | ---------------------------- | :----------: | :-----------: | ----------------------------------------------------------- |
 | Volume d'Halstead (HV)       |    250,36    |    250,36     | Les commentaires ne sont ni des opérateurs ni des opérandes |
@@ -234,6 +254,15 @@ $$MI = 171 - 28{,}72 - 0{,}92 - 40{,}26 + 0 = \mathbf{101{,}11}$$
 | Lignes de code (LOC)         |      12      |      26       | `./loc.sh src`                                              |
 | Commentaires (COM)           |     0 %      |    53,85 %    | 14 lignes de commentaire sur 26                             |
 | **MI**                       |  **101,11**  |  **134,24**   |                                                             |
+=======
+| Mesure | Code initial | Code commenté | Remarque |
+| ---------------------------- | :----------: | :-----------: | ----------------------------------------------------------- |
+| Volume d'Halstead (HV) | 250,36 | 250,36 | Les commentaires ne sont ni des opérateurs ni des opérandes |
+| Complexité cyclomatique (CC) | 4 | 4 | Le graphe de flot de contrôle ne change pas |
+| Lignes de code (LOC) | 12 | 26 | `./loc.sh src` |
+| Commentaires (COM) | 0 % | 53,85 % | 14 lignes de commentaire sur 26 |
+| **MI** | **101,11** | **134,24** | |
+>>>>>>> 725022b (docs: formule de la fonction ajout-tp2-quantile)
 
 $$MI = 171 - 28{,}72 - 0{,}92 - 16{,}2 \ln(26) + 50 \sin\sqrt{2{,}46 \times 0{,}5385} = 171 - 28{,}72 - 0{,}92 - 52{,}78 + 45{,}66 = \mathbf{134{,}24}$$
 
@@ -249,6 +278,7 @@ $$MI = 171 - 28{,}72 - 0{,}92 - 16{,}2 \ln(26) + 50 \sin\sqrt{2{,}46 \times 0{,}
 
 ### Chaque facteur est noté de 0 à 5 selon son influence.
 
+<<<<<<< HEAD
 | #   | Facteur technique                               | Score | Justification                                                       |
 | --- | ----------------------------------------------- | :---: | ------------------------------------------------------------------- |
 | F1  | Sauvegarde et récupération fiables              |   3   | Données importantes mais juste un volume Docker, pas de vraie sauvegarde |
@@ -266,6 +296,25 @@ $$MI = 171 - 28{,}72 - 0{,}92 - 16{,}2 \ln(26) + 50 \sin\sqrt{2{,}46 \times 0{,}
 | F13 | Installations multiples dans plusieurs organisations |   2   | Domaines email configurables mais pensée pour AMU               |
 | F14 | Facilité de changement et d'utilisation         |   4   | Modèles et domaines configurables sans toucher au code, guide utilisateur |
 |     | **Total ΣF**                                    | **46** |                                                                    |
+=======
+| # | Facteur technique | Score | Justification |
+| --- | ----------------------------------------------- | :---: | ------------------------------------------------------------------- |
+| F1 | Sauvegarde et récupération fiables | 3 | Données importantes mais juste un volume Docker, pas de vraie sauvegarde |
+| F2 | Communications de données | 4 | HTTP, appels à l'API d'Ollama et envoi de mails |
+| F3 | Traitement distribué | 3 | Application, base et LLM dans des conteneurs séparés |
+| F4 | Performances critiques | 3 | Le LLM doit répondre vite pendant les séances |
+| F5 | Environnement existant et fortement utilisé | 2 | Prévue pour les serveurs d'AMU mais isolée dans Docker |
+| F6 | Entrées de données en ligne | 5 | Tout est saisi en ligne |
+| F7 | Entrées sur plusieurs écrans ou opérations | 3 | Inscription avec validation de l'email, création et accès aux sessions |
+| F8 | Fichiers maîtres mis à jour en ligne | 4 | La base est mise à jour à chaque message |
+| F9 | Entrées, sorties, fichiers ou requêtes complexes | 3 | Import de PDF, export JSON, requêtes au LLM avec contexte |
+| F10 | Traitement interne complexe | 3 | 5 rôles, cycle de vie des sessions, adaptateurs LLM |
+| F11 | Code réutilisable | 3 | MVC + Domain et adaptateur LLM interchangeable |
+| F12 | Conversion et installation prévues | 4 | Docker Compose et scripts SQL testés en CI |
+| F13 | Installations multiples dans plusieurs organisations | 2 | Domaines email configurables mais pensée pour AMU |
+| F14 | Facilité de changement et d'utilisation | 4 | Modèles et domaines configurables sans toucher au code, guide utilisateur |
+| | **Total ΣF** | **46** | |
+>>>>>>> 725022b (docs: formule de la fonction ajout-tp2-quantile)
 
 $$TFC = 0{,}65 + 0{,}01 \times \sum_{i=1}^{14} F_i = 0{,}65 + 0{,}01 \times 46 = \mathbf{1{,}11}$$
 
@@ -435,3 +484,22 @@ $$Q(x) = (n - 1) + \frac{x - borneInf(n)}{borneSup(n) - borneInf(n)}$$
 ### Les 21 bornes de chaque critère sont identiques à celles du dépôt [ecoindex_reference](https://github.com/cnumr/ecoindex_reference), même quand elles sont recopiées en dur.
 
 ### Les seules différences portent sur l'arrondi. Certains projets arrondissent le score à l'entier et d'autres non. Pour les gaz à effet de serre et l'eau, tous utilisent les formules du cours $2 + 2 \times (50 - EcoIndex)/100$ et $3 + 3 \times (50 - EcoIndex)/100$, arrondies à deux décimales.
+<<<<<<< HEAD
+=======
+
+## 2.2 Fonction Quantile
+
+---
+
+### Pour chaque critère (DOM, requêtes, taille) on dispose de 21 bornes qui découpent les valeurs en 20 intervalles. On cherche l'intervalle n qui contient la valeur x, c'est-à-dire $borneInf(n) \le x < borneSup(n)$.
+
+$$Quantile(x) = (n - 1) + \frac{x - borneInf(n)}{borneSup(n) - borneInf(n)}$$
+
+### La partie entière $n - 1$ donne le numéro de l'intervalle, et la fraction donne la position de x entre ses deux bornes. Le quantile varie donc de façon continue entre 0 et 20. Si x dépasse la dernière borne, le quantile vaut 20.
+
+### Exemple
+
+### Une page de 600 éléments DOM tombe entre les bornes 537 et 603, dans le 10e intervalle.
+
+$$Quantile(600) = (10 - 1) + \frac{600 - 537}{603 - 537} = 9 + \frac{63}{66} \approx 9{,}95$$
+>>>>>>> 725022b (docs: formule de la fonction ajout-tp2-quantile)
