@@ -182,15 +182,6 @@ Les comptages et la longueur $N$ restent intuitifs, un programme plus long a plu
 
 Chaque poids vaut la base de la catégorie multipliée par le niveau, 1 pour simple, 2 pour moyen et 3 pour difficile.
 
-<<<<<<< HEAD
-| Catégorie         | Base | Justification                                              |
-| ----------------- | :--: | ---------------------------------------------------------- |
-| Entrées externes  |  1   | Recevoir une donnée, c'est notre référence             |
-| Requêtes externes |  1   | Une entrée suivie d'une réponse immédiate, sans traitement |
-| Sorties externes  |  2   | Le résultat doit être calculé avant d'être fourni          |
-| Fichiers externes |  2   | Accès à des données via un mécanisme externe               |
-| Fichiers internes |  3   | Structure de données à concevoir et à maintenir            |
-=======
 | Catégorie | Base | Justification |
 | ----------------- | :--: | ---------------------------------------------------------- |
 | Entrées externes | 1 | Recevoir une donnée, c'est notre référence |
@@ -198,7 +189,6 @@ Chaque poids vaut la base de la catégorie multipliée par le niveau, 1 pour sim
 | Sorties externes | 2 | Le résultat doit être calculé avant d'être fourni |
 | Fichiers externes | 2 | Accès à des données via un mécanisme externe |
 | Fichiers internes | 3 | Structure de données à concevoir et à maintenir |
->>>>>>> 725022b (docs: formule de la fonction ajout-tp2-quantile)
 
 ### Scores pour `iqsort0`
 
@@ -216,21 +206,12 @@ Chaque poids vaut la base de la catégorie multipliée par le niveau, 1 pour sim
 
 ### Valeurs utilisées pour `iqsort0`
 
-<<<<<<< HEAD
-| Mesure                       | Valeur | Source                                |
-| ---------------------------- | :----: | ------------------------------------- |
-| Volume d'Halstead (HV)       | 250,36 | Onglet Halstead (2.6)                 |
-| Complexité cyclomatique (CC) |   4    | Onglet CC (2.5)                       |
-| Lignes de code (LOC)         |   12   | `loc.sh` sur le code de `iqsort0`     |
-| Commentaires (COM)           |  0 %   | Le code ne contient aucun commentaire |
-=======
 | Mesure | Valeur | Source |
 | ---------------------------- | :----: | ------------------------------------- |
 | Volume d'Halstead (HV) | 250,36 | Onglet Halstead (2.6) |
 | Complexité cyclomatique (CC) | 4 | Onglet CC (2.5) |
 | Lignes de code (LOC) | 12 | `loc.sh` sur le code de `iqsort0` |
 | Commentaires (COM) | 0 % | Le code ne contient aucun commentaire |
->>>>>>> 725022b (docs: formule de la fonction ajout-tp2-quantile)
 
 ### Calcul
 
@@ -246,15 +227,6 @@ $$MI = 171 - 28{,}72 - 0{,}92 - 40{,}26 + 0 = \mathbf{101{,}11}$$
 
 ### Le code commenté se trouve dans [`src/iqsort0.c`](src/iqsort0.c).
 
-<<<<<<< HEAD
-| Mesure                       | Code initial | Code commenté | Remarque                                                    |
-| ---------------------------- | :----------: | :-----------: | ----------------------------------------------------------- |
-| Volume d'Halstead (HV)       |    250,36    |    250,36     | Les commentaires ne sont ni des opérateurs ni des opérandes |
-| Complexité cyclomatique (CC) |      4       |       4       | Le graphe de flot de contrôle ne change pas                 |
-| Lignes de code (LOC)         |      12      |      26       | `./loc.sh src`                                              |
-| Commentaires (COM)           |     0 %      |    53,85 %    | 14 lignes de commentaire sur 26                             |
-| **MI**                       |  **101,11**  |  **134,24**   |                                                             |
-=======
 | Mesure | Code initial | Code commenté | Remarque |
 | ---------------------------- | :----------: | :-----------: | ----------------------------------------------------------- |
 | Volume d'Halstead (HV) | 250,36 | 250,36 | Les commentaires ne sont ni des opérateurs ni des opérandes |
@@ -262,7 +234,6 @@ $$MI = 171 - 28{,}72 - 0{,}92 - 40{,}26 + 0 = \mathbf{101{,}11}$$
 | Lignes de code (LOC) | 12 | 26 | `./loc.sh src` |
 | Commentaires (COM) | 0 % | 53,85 % | 14 lignes de commentaire sur 26 |
 | **MI** | **101,11** | **134,24** | |
->>>>>>> 725022b (docs: formule de la fonction ajout-tp2-quantile)
 
 $$MI = 171 - 28{,}72 - 0{,}92 - 16{,}2 \ln(26) + 50 \sin\sqrt{2{,}46 \times 0{,}5385} = 171 - 28{,}72 - 0{,}92 - 52{,}78 + 45{,}66 = \mathbf{134{,}24}$$
 
@@ -278,25 +249,6 @@ $$MI = 171 - 28{,}72 - 0{,}92 - 16{,}2 \ln(26) + 50 \sin\sqrt{2{,}46 \times 0{,}
 
 ### Chaque facteur est noté de 0 à 5 selon son influence.
 
-<<<<<<< HEAD
-| #   | Facteur technique                               | Score | Justification                                                       |
-| --- | ----------------------------------------------- | :---: | ------------------------------------------------------------------- |
-| F1  | Sauvegarde et récupération fiables              |   3   | Données importantes mais juste un volume Docker, pas de vraie sauvegarde |
-| F2  | Communications de données                       |   4   | HTTP, appels à l'API d'Ollama et envoi de mails                     |
-| F3  | Traitement distribué                            |   3   | Application, base et LLM dans des conteneurs séparés                |
-| F4  | Performances critiques                          |   3   | Le LLM doit répondre vite pendant les séances                       |
-| F5  | Environnement existant et fortement utilisé     |   2   | Prévue pour les serveurs d'AMU mais isolée dans Docker              |
-| F6  | Entrées de données en ligne                     |   5   | Tout est saisi en ligne                                             |
-| F7  | Entrées sur plusieurs écrans ou opérations      |   3   | Inscription avec validation de l'email, création et accès aux sessions |
-| F8  | Fichiers maîtres mis à jour en ligne            |   4   | La base est mise à jour à chaque message                            |
-| F9  | Entrées, sorties, fichiers ou requêtes complexes |   3   | Import de PDF, export JSON, requêtes au LLM avec contexte           |
-| F10 | Traitement interne complexe                     |   3   | 5 rôles, cycle de vie des sessions, adaptateurs LLM                 |
-| F11 | Code réutilisable                               |   3   | MVC + Domain et adaptateur LLM interchangeable                      |
-| F12 | Conversion et installation prévues              |   4   | Docker Compose et scripts SQL testés en CI                          |
-| F13 | Installations multiples dans plusieurs organisations |   2   | Domaines email configurables mais pensée pour AMU               |
-| F14 | Facilité de changement et d'utilisation         |   4   | Modèles et domaines configurables sans toucher au code, guide utilisateur |
-|     | **Total ΣF**                                    | **46** |                                                                    |
-=======
 | # | Facteur technique | Score | Justification |
 | --- | ----------------------------------------------- | :---: | ------------------------------------------------------------------- |
 | F1 | Sauvegarde et récupération fiables | 3 | Données importantes mais juste un volume Docker, pas de vraie sauvegarde |
@@ -314,7 +266,6 @@ $$MI = 171 - 28{,}72 - 0{,}92 - 16{,}2 \ln(26) + 50 \sin\sqrt{2{,}46 \times 0{,}
 | F13 | Installations multiples dans plusieurs organisations | 2 | Domaines email configurables mais pensée pour AMU |
 | F14 | Facilité de changement et d'utilisation | 4 | Modèles et domaines configurables sans toucher au code, guide utilisateur |
 | | **Total ΣF** | **46** | |
->>>>>>> 725022b (docs: formule de la fonction ajout-tp2-quantile)
 
 $$TFC = 0{,}65 + 0{,}01 \times \sum_{i=1}^{14} F_i = 0{,}65 + 0{,}01 \times 46 = \mathbf{1{,}11}$$
 
@@ -484,8 +435,6 @@ $$Q(x) = (n - 1) + \frac{x - borneInf(n)}{borneSup(n) - borneInf(n)}$$
 ### Les 21 bornes de chaque critère sont identiques à celles du dépôt [ecoindex_reference](https://github.com/cnumr/ecoindex_reference), même quand elles sont recopiées en dur.
 
 ### Les seules différences portent sur l'arrondi. Certains projets arrondissent le score à l'entier et d'autres non. Pour les gaz à effet de serre et l'eau, tous utilisent les formules du cours $2 + 2 \times (50 - EcoIndex)/100$ et $3 + 3 \times (50 - EcoIndex)/100$, arrondies à deux décimales.
-<<<<<<< HEAD
-=======
 
 ## 2.2 Fonction Quantile
 
@@ -502,4 +451,3 @@ $$Quantile(x) = (n - 1) + \frac{x - borneInf(n)}{borneSup(n) - borneInf(n)}$$
 ### Une page de 600 éléments DOM tombe entre les bornes 537 et 603, dans le 10e intervalle.
 
 $$Quantile(600) = (10 - 1) + \frac{600 - 537}{603 - 537} = 9 + \frac{63}{66} \approx 9{,}95$$
->>>>>>> 725022b (docs: formule de la fonction ajout-tp2-quantile)
