@@ -382,3 +382,29 @@ $$C = E \times CI = 104{,}14 \times 475 = \mathbf{49{,}47\ kgCO_2e}$$
 ### Absorption par un arbre
 
 ### Un arbre adulte absorbe environ 11 kg de CO2 par an. Il lui faut donc 4,5 ans pour une seule expérience et 49,5 ans pour toute l'étude, soit environ 593 mois-arbres comme dans l'article.
+
+## 1.2 IA, traitement automatique des langues
+
+---
+
+### L'entraînement de BERT demande 79 h sur 64 GPU Tesla V100 utilisés à 62,7 %. On compte 300 W par V100, et pas de mémoire car l'article ne la prend pas en compte pour cet exemple.
+
+| Paramètre | Valeur |
+| --- | :---: |
+| t | 79 h |
+| nc × Pc | 64 × 300 W |
+| uc | 0,627 |
+| PUE | 1,67 |
+| CI | 475 gCO2e/kWh |
+
+$$E = 79 \times (64 \times 300 \times 0{,}627) \times 1{,}67 \times 0{,}001 = \mathbf{1\,588{,}23\ kWh}$$
+
+$$C = 1\,588{,}23 \times 475 = \mathbf{754{,}41\ kgCO_2e}$$
+
+### On retrouve les 754 407 g de l'article. Il faudrait 68,6 ans à un arbre pour absorber un seul entraînement.
+
+### Avec un PSF de 100
+
+### La recherche des hyperparamètres oblige à relancer l'entraînement de nombreuses fois. Avec un PSF de 100 on obtient 754,41 × 100 = 75 440,74 kgCO2e, soit environ 75,4 tonnes, comme les 75 440 740 g de l'article.
+
+### Sur le site Green Algorithms la version actuelle des données compte 250 W par V100 et donne 628,67 kg. En choisissant la version v2.0 des données, qui compte 300 W, le site retrouve exactement 754,41 kg.
