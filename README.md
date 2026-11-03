@@ -4,8 +4,6 @@
 - CANTOR Romain
 - CHETIOUI Willem
 
----
-
 ## 2.4 Mesurer un algorithme simple
 
 ### Code source analysé
@@ -27,8 +25,6 @@ Implémentation simplifiée du QuickSort :
 12  }
 ```
 
----
-
 ### Graphe de flot de contrôle (CFG)
 
 ```mermaid
@@ -49,27 +45,21 @@ flowchart TD
 
 ## 2.5 Complexité cyclomatique
 
----
+Nombre de nœuds **N** (B1 à B8 + Sortie) = 9
 
-### Nombre de nœuds **N** (B1 à B8 + Sortie) = 9
+Nombre d'arêtes **E** = 11
 
-### Nombre d'arêtes **E** = 11
+Composantes connexes **P** = 1
 
-### Composantes connexes **P** = 1
+$$V(G) = E - N + 2P = 11 - 9 + 2 = \mathbf{4}$$
 
----
+Vérification par les prédicats : le code contient 3 points de décision (`if (n <= 1)`, `i < n`, `if (a[i] < a[0])`), donc V(G) = 3 + 1 = **4**.
 
-### $$V(G) = E - N + 2P = 11 - 9 + 2 = \mathbf{4}$$
+Le nœud d'entrée n'est pas compté ici. L'ajouter donnerait N = 10 et E = 12, et le résultat resterait identique.
 
-### **Vérification par les prédicats** : le code contient 3 points de décision (`if (n <= 1)`, `i < n`, `if (a[i] < a[0])`), donc V(G) = 3 + 1 = **4**.
-
-### Le nœud d'entrée n'est pas compté ici. L'ajouter donnerait N = 10 et E = 12, et le résultat resterait identique.
-
-### **Interprétation** : il existe 4 chemins linéairement indépendants dans `iqsort0`. Il faut donc au minimum 4 cas de test pour couvrir la base de chemins. Une valeur de 4 correspond à une fonction simple, peu risquée et facile à tester.
+Interprétation : il existe 4 chemins linéairement indépendants dans `iqsort0`. Il faut donc au minimum 4 cas de test pour couvrir la base de chemins. Une valeur de 4 correspond à une fonction simple, peu risquée et facile à tester.
 
 ## 2.6 Métriques de Halstead
-
----
 
 ### Convention de comptage
 
@@ -77,8 +67,6 @@ flowchart TD
 - Les opérandes sont les variables, les constantes et les appels de fonction (`swap`, `iqsort0`), comme dans le cours.
 - La ponctuation `( ) { } ; ,` n'est pas comptée.
 - `++j` et `i++` comptent comme le même opérateur.
-
----
 
 ### Opérateurs
 
@@ -113,8 +101,6 @@ flowchart TD
 | `iqsort0` (appel) |      2      | 10, 11                  |
 | **Total**         |   **35**    |                         |
 
----
-
 ### Résultats
 
 | Mesure                   | Formule                                                           |    Valeur    |
@@ -129,13 +115,11 @@ flowchart TD
 | Difficulté               | $D = \frac{n_t}{2} \times \frac{N_d}{n_d} = 6{,}5 \times 4{,}375$ |  **28,44**   |
 | Effort                   | $E = D \times V$                                                  | **7 119,67** |
 
-### Le volume reste modeste, c'est normal pour une fonction aussi courte. La difficulté est plus élevée parce que peu d'opérandes sont réutilisés très souvent, `a` et `j` apparaissent 7 fois chacun.
+Le volume reste modeste, c'est normal pour une fonction aussi courte. La difficulté est plus élevée parce que peu d'opérandes sont réutilisés très souvent, `a` et `j` apparaissent 7 fois chacun.
 
-### Ces résultats dépendent beaucoup de la convention. Compter la ponctuation ou classer les appels comme opérateurs changerait tout.
+Ces résultats dépendent beaucoup de la convention. Compter la ponctuation ou classer les appels comme opérateurs changerait tout.
 
 ## 2.7 Validité des métriques de Halstead
-
----
 
 ### Définition d'une mesure valide (Définition du cours)
 
@@ -144,8 +128,6 @@ Une mesure $M : A \to B$ est **valide** par rapport à un système empirique $E 
 $$\forall (a, b) \in R,\ (M(a), M(b)) \in S$$
 
 Si un programme `a` est réellement plus complexe qu'un programme `b`, il faut donc que $M(a) > M(b)$. Cela suppose que $M$ associe une seule valeur à chaque programme et que l'ordre des valeurs respecte celui réellement constaté.
-
----
 
 ### 1. Le comptage dépend d'une convention arbitraire
 
@@ -158,25 +140,19 @@ La frontière entre opérateur et opérande n'est pas fixée. Rien n'oblige à c
 | Difficulté D  |             28,44             |        37,19        |
 | Effort E      |           7 119,67            |      14 333,55      |
 
-### Un même programme n'a donc pas une valeur unique. Selon la personne qui mesure, l'effort varie du simple au double. $M$ n'est alors pas une application bien définie et la première condition de validité n'est pas garantie.
+Un même programme n'a donc pas une valeur unique. Selon la personne qui mesure, l'effort varie du simple au double. $M$ n'est alors pas une application bien définie et la première condition de validité n'est pas garantie.
 
-### La convention peut même inverser l'ordre réel. `(a + j) + 1` n'est pas plus compliqué que `a + j + 1`, pourtant si on compte les parenthèses $N$ et $V$ augmentent. Pareil pour `int i, j;` et `int i; int j;` qui ne donnent pas le même $N_t$.
-
----
+La convention peut même inverser l'ordre réel. `(a + j) + 1` n'est pas plus compliqué que `a + j + 1`, pourtant si on compte les parenthèses $N$ et $V$ augmentent. Pareil pour `int i, j;` et `int i; int j;` qui ne donnent pas le même $N_t$.
 
 ### 2. Les formules ne reposent pas sur des relations empiriques démontrées
 
 Les comptages et la longueur $N$ restent intuitifs, un programme plus long a plus de symboles. Par contre aucune expérience ne justifie les formules du volume, de la difficulté et de l'effort. Pourquoi un $\log_2$, pourquoi diviser $n_t$ par 2 ?
 
-### Or une relation empirique doit reposer sur des preuves vérifiables. Sans elles, rien ne dit qu'un programme avec un $D$ plus grand est vraiment plus dur à comprendre.
+Or une relation empirique doit reposer sur des preuves vérifiables. Sans elles, rien ne dit qu'un programme avec un $D$ plus grand est vraiment plus dur à comprendre.
 
----
-
-### Les métriques de Halstead sont donc difficiles à justifier à deux niveaux, le comptage et les formules. On ne peut pas garantir que l'ordre qu'elles donnent entre deux programmes correspond à leur vraie complexité, ce qui met en doute leur validité. C'est pour ça qu'on les utilise rarement seules, plutôt combinées à d'autres mesures comme dans le MI. (Basé sur l'analyse précédente et le cours)
+Les métriques de Halstead sont donc difficiles à justifier à deux niveaux, le comptage et les formules. On ne peut pas garantir que l'ordre qu'elles donnent entre deux programmes correspond à leur vraie complexité, ce qui met en doute leur validité. C'est pour ça qu'on les utilise rarement seules, plutôt combinées à d'autres mesures comme dans le MI. (Basé sur l'analyse précédente et le cours)
 
 ## 2.9 Points de fonction du QuickSort
-
----
 
 ### Poids
 
@@ -196,13 +172,11 @@ Chaque poids vaut la base de la catégorie multipliée par le niveau, 1 pour sim
 - Une sortie externe difficile, le tableau trié, qui demande toute la partition et la récursion.
 - Pas de requête ni de fichier, tout se fait en mémoire.
 
-### $$UFC = 1 \times 1 + 2 \times 1 + 6 \times 1 = \mathbf{9}$$
+$$UFC = 1 \times 1 + 2 \times 1 + 6 \times 1 = \mathbf{9}$$
 
-### Le score est très faible alors que l'algorithme n'est pas si simple. Les points de fonction ne regardent que les échanges avec l'extérieur, ils sont donc peu adaptés au QuickSort dont toute la difficulté est interne.
+Le score est très faible alors que l'algorithme n'est pas si simple. Les points de fonction ne regardent que les échanges avec l'extérieur, ils sont donc peu adaptés au QuickSort dont toute la difficulté est interne.
 
 ## 2.10 Index de Maintenabilité (MI)
-
----
 
 ### Valeurs utilisées pour `iqsort0`
 
@@ -219,13 +193,11 @@ $$MI = 171 - 5{,}2 \ln(HV) - 0{,}23\,CC - 16{,}2 \ln(LOC) + 50 \sin\sqrt{2{,}46 
 
 $$MI = 171 - 28{,}72 - 0{,}92 - 40{,}26 + 0 = \mathbf{101{,}11}$$
 
-### On dépasse le haut de l'échelle de 1 à 100, la fonction est donc très facile à maintenir. Elle est courte et peu complexe, et sans commentaire le dernier terme vaut 0.
+On dépasse le haut de l'échelle de 1 à 100, la fonction est donc très facile à maintenir. Elle est courte et peu complexe, et sans commentaire le dernier terme vaut 0.
 
 ## 2.11 MI du code commenté
 
----
-
-### Le code commenté se trouve dans [`src/iqsort0.c`](src/iqsort0.c).
+Le code commenté se trouve dans [`src/iqsort0.c`](src/iqsort0.c).
 
 | Mesure                       | Code initial | Code commenté | Remarque                                                    |
 | ---------------------------- | :----------: | :-----------: | ----------------------------------------------------------- |
@@ -237,17 +209,15 @@ $$MI = 171 - 28{,}72 - 0{,}92 - 40{,}26 + 0 = \mathbf{101{,}11}$$
 
 $$MI = 171 - 28{,}72 - 0{,}92 - 16{,}2 \ln(26) + 50 \sin\sqrt{2{,}46 \times 0{,}5385} = 171 - 28{,}72 - 0{,}92 - 52{,}78 + 45{,}66 = \mathbf{134{,}24}$$
 
-### COM est pris comme un ratio entre 0 et 1, c'est ce que stocke le tableur dans une cellule en pourcentage.
+COM est pris comme un ratio entre 0 et 1, c'est ce que stocke le tableur dans une cellule en pourcentage.
 
-### Les commentaires font gagner environ 33 points. Leur bonus (+45,66) compense largement les lignes en plus (−52,78 au lieu de −40,26). Par contre le MI ne regarde que la quantité de commentaires, pas leur qualité.
+Les commentaires font gagner environ 33 points. Leur bonus (+45,66) compense largement les lignes en plus (−52,78 au lieu de −40,26). Par contre le MI ne regarde que la quantité de commentaires, pas leur qualité.
 
 ## 2.12 Facteur de complexité technique (TFC)
 
----
+On a choisi I-AMU_Web_APP, notre application web qui donne aux étudiants un accès encadré à un LLM local. Elle tourne sous Docker avec PHP, PostgreSQL et Ollama et compte 524 commits sur GitHub.
 
-### On a choisi I-AMU_Web_APP, notre application web qui donne aux étudiants un accès encadré à un LLM local. Elle tourne sous Docker avec PHP, PostgreSQL et Ollama et compte 524 commits sur GitHub.
-
-### Chaque facteur est noté de 0 à 5 selon son influence.
+Chaque facteur est noté de 0 à 5 selon son influence.
 
 | #   | Facteur technique                               | Score | Justification                                                       |
 | --- | ----------------------------------------------- | :---: | ------------------------------------------------------------------- |
@@ -269,15 +239,13 @@ $$MI = 171 - 28{,}72 - 0{,}92 - 16{,}2 \ln(26) + 50 \sin\sqrt{2{,}46 \times 0{,}
 
 $$TFC = 0{,}65 + 0{,}01 \times \sum_{i=1}^{14} F_i = 0{,}65 + 0{,}01 \times 46 = \mathbf{1{,}11}$$
 
-### Le TFC va de 0,65 à 1,35. Avec 1,11 I-AMU est un peu au-dessus de la moyenne, ça ajouterait 11 % aux points de fonction. Ce sont surtout la saisie en ligne et la base mise à jour en continu qui pèsent, c'est classique pour une application web.
+Le TFC va de 0,65 à 1,35. Avec 1,11 I-AMU est un peu au-dessus de la moyenne, ça ajouterait 11 % aux points de fonction. Ce sont surtout la saisie en ligne et la base mise à jour en continu qui pèsent, c'est classique pour une application web.
 
 ## 2.13 Mesures du projet r201DOOEngins-ENS
 
----
+Le dépôt [IUTInfoAix-R2-01/r201DOOEngins-ENS](https://github.com/IUTInfoAix-R2-01/r201DOOEngins-ENS) est un exercice Java de R2.01 avec 11 fichiers, dont un fichier de tests JUnit.
 
-### Le dépôt [IUTInfoAix-R2-01/r201DOOEngins-ENS](https://github.com/IUTInfoAix-R2-01/r201DOOEngins-ENS) est un exercice Java de R2.01 avec 11 fichiers, dont un fichier de tests JUnit.
-
-### On a utilisé `loc.sh` pour le LOC, [lizard](https://github.com/terryyin/lizard) pour la complexité cyclomatique et [multimetric](https://github.com/priv-kweihmann/multimetric) pour Halstead. Le MI est recalculé avec la formule du cours, celui de multimetric n'utilise pas la même.
+On a utilisé `loc.sh` pour le LOC, [lizard](https://github.com/terryyin/lizard) pour la complexité cyclomatique et [multimetric](https://github.com/priv-kweihmann/multimetric) pour Halstead. Le MI est recalculé avec la formule du cours, celui de multimetric n'utilise pas la même.
 
 | Mesure | Valeur |
 | --- | :---: |
@@ -294,25 +262,23 @@ $$TFC = 0{,}65 + 0{,}01 \times \sum_{i=1}^{14} F_i = 0{,}65 + 0{,}01 \times 46 =
 | UFC | 15 |
 | TFC | 0,74 |
 
-### Presque toutes les méthodes ont une CC de 1. Les plus complexes sont `Carburant.nom` et `Carburant.getConso` avec un `switch` à 4 chemins.
+Presque toutes les méthodes ont une CC de 1. Les plus complexes sont `Carburant.nom` et `Carburant.getConso` avec un `switch` à 4 chemins.
 
-### multimetric compte la ponctuation dans les opérateurs, ses chiffres Halstead ne sont donc pas comparables à ceux de la 2.6.
+multimetric compte la ponctuation dans les opérateurs, ses chiffres Halstead ne sont donc pas comparables à ceux de la 2.6.
 
-### Le MI se calcule normalement fichier par fichier. Sur le projet entier, le LOC et le volume sont tellement grands que le score tombe à 28, ce qui ne veut pas dire grand-chose. Le fichier de tests est le moins maintenable avec 45,57, les autres fichiers sont autour de 100.
+Le MI se calcule normalement fichier par fichier. Sur le projet entier, le LOC et le volume sont tellement grands que le score tombe à 28, ce qui ne veut pas dire grand-chose. Le fichier de tests est le moins maintenable avec 45,57, les autres fichiers sont autour de 100.
 
-### Pour l'UFC on reprend les poids de la 2.9. Il y a trois entrées (la masse, le carburant et la propulsion d'un engin), trois sorties (la consommation, le message de conduite et la description) et trois requêtes (consulter un engin, une propulsion ou les carburants), ce qui donne 15.
+Pour l'UFC on reprend les poids de la 2.9. Il y a trois entrées (la masse, le carburant et la propulsion d'un engin), trois sorties (la consommation, le message de conduite et la description) et trois requêtes (consulter un engin, une propulsion ou les carburants), ce qui donne 15.
 
-### Pour le TFC presque tous les facteurs sont à 0, il n'y a ni base, ni réseau, ni interface. Seuls la réutilisabilité (3), la facilité de changement (3), les entrées-sorties (1), le traitement (1) et l'installation (1) comptent, soit une somme de 9.
+Pour le TFC presque tous les facteurs sont à 0, il n'y a ni base, ni réseau, ni interface. Seuls la réutilisabilité (3), la facilité de changement (3), les entrées-sorties (1), le traitement (1) et l'installation (1) comptent, soit une somme de 9.
 
 ## 2.14 Couplage et absence de cohésion
 
----
-
-### Le comptage est fait à la main sur les 11 classes de r201DOOEngins-ENS, en suivant les définitions du cours.
+Le comptage est fait à la main sur les 11 classes de r201DOOEngins-ENS, en suivant les définitions du cours.
 
 ### Couplage (CBO)
 
-### Deux classes sont couplées quand l'une lit ou écrit une variable de l'autre ou appelle une de ses méthodes, constructeurs compris. Pour un appel polymorphe on compte toutes les implémentations possibles, par exemple `getPropulsion().consommerEnergie()` couple `Roulant` à `Propulsion`, `Thermique`, `Electrique` et `Eolienne`. Les simples déclarations de type et les classes de Java comme `String` ne comptent pas.
+Deux classes sont couplées quand l'une lit ou écrit une variable de l'autre ou appelle une de ses méthodes, constructeurs compris. Pour un appel polymorphe on compte toutes les implémentations possibles, par exemple `getPropulsion().consommerEnergie()` couple `Roulant` à `Propulsion`, `Thermique`, `Electrique` et `Eolienne`. Les simples déclarations de type et les classes de Java comme `String` ne comptent pas.
 
 | Classe | CBO |
 | --- | :---: |
@@ -328,11 +294,11 @@ $$TFC = 0{,}65 + 0{,}01 \times \sum_{i=1}^{14} F_i = 0{,}65 + 0{,}01 \times 46 =
 | Marker | 0 |
 | ExamEnginsTest | 8 |
 
-### Le CBO moyen est de 5,09. `Roulant` et `Flottant` sont les plus couplées à cause du polymorphisme, et `Marker` n'est utilisée par personne, c'est du code mort.
+Le CBO moyen est de 5,09. `Roulant` et `Flottant` sont les plus couplées à cause du polymorphisme, et `Marker` n'est utilisée par personne, c'est du code mort.
 
 ### Absence de cohésion (LCOM)
 
-### Pour chaque classe on compte les paires de méthodes qui ne partagent aucun attribut (P) et celles qui en partagent au moins un (Q). LCOM vaut P − Q, ramené à 0 s'il est négatif. On prend les méthodes qui ont un corps, constructeurs compris.
+Pour chaque classe on compte les paires de méthodes qui ne partagent aucun attribut (P) et celles qui en partagent au moins un (Q). LCOM vaut P − Q, ramené à 0 s'il est négatif. On prend les méthodes qui ont un corps, constructeurs compris.
 
 | Classe | Méthodes | P | Q | LCOM |
 | --- | :---: | :---: | :---: | :---: |
@@ -348,15 +314,13 @@ $$TFC = 0{,}65 + 0{,}01 \times \sum_{i=1}^{14} F_i = 0{,}65 + 0{,}01 \times 46 =
 | Marker | 0 | 0 | 0 | 0 |
 | ExamEnginsTest | 24 | 276 | 0 | 276 |
 
-### `Thermique` est la classe la plus cohésive, presque toutes ses méthodes touchent `masse` ou `carburant`. `Engin` et `Electrique` ont beaucoup de getters et setters qui ne touchent chacun qu'un attribut, ce qui fait monter leur LCOM. La classe de tests a un LCOM énorme mais c'est normal, chaque test est indépendant et n'utilise aucun attribut.
+`Thermique` est la classe la plus cohésive, presque toutes ses méthodes touchent `masse` ou `carburant`. `Engin` et `Electrique` ont beaucoup de getters et setters qui ne touchent chacun qu'un attribut, ce qui fait monter leur LCOM. La classe de tests a un LCOM énorme mais c'est normal, chaque test est indépendant et n'utilise aucun attribut.
 
 # TP2 Mesures d'impact environnemental
 
 ## 1.1 Simulations de physique des particules
 
----
-
-### On reprend l'expérience Geant4 de l'article Green Algorithms (Lannelongue et al., 2021). Une expérience dure 3 semaines sur un Xeon E5-2680 avec 24 threads sur 12 cœurs et 10 Go de mémoire.
+On reprend l'expérience Geant4 de l'article Green Algorithms (Lannelongue et al., 2021). Une expérience dure 3 semaines sur un Xeon E5-2680 avec 24 threads sur 12 cœurs et 10 Go de mémoire.
 
 | Paramètre | Valeur | Source |
 | --- | :---: | --- |
@@ -371,23 +335,21 @@ $$E = t \times (n_c \times P_c \times u_c + n_m \times P_m) \times PUE \times 0{
 
 $$C = E \times CI = 104{,}14 \times 475 = \mathbf{49{,}47\ kgCO_2e}$$
 
-### Vérification avec le site Green Algorithms
+#### Vérification avec le site Green Algorithms
 
-### Avec ses valeurs par défaut le calculateur donne 97,28 kWh et 46,69 kg, parce qu'il utilise maintenant un PUE de 1,56 et une intensité carbone mondiale de 480. En remettant 1,67 et 475 on retrouve exactement 104,14 kWh et 49,47 kg, comme les 49 465 g de l'article. Le E5-2680 n'est plus dans la liste du site, on a donc saisi ses caractéristiques à la main.
+Avec ses valeurs par défaut le calculateur donne 97,28 kWh et 46,69 kg, parce qu'il utilise maintenant un PUE de 1,56 et une intensité carbone mondiale de 480. En remettant 1,67 et 475 on retrouve exactement 104,14 kWh et 49,47 kg, comme les 49 465 g de l'article. Le E5-2680 n'est plus dans la liste du site, on a donc saisi ses caractéristiques à la main.
 
-### Les 11 niveaux d'énergie
+#### Les 11 niveaux d'énergie
 
-### Chaque niveau d'énergie est une expérience complète de 3 semaines. On l'intègre avec le facteur d'échelle pragmatique PSF = 11, ce qui donne 49,47 × 11 = 544,12 kgCO2e pour toute l'étude. Le site donne la même valeur avec un facteur multiplicatif de 11, et l'article annonce 544 115 g.
+Chaque niveau d'énergie est une expérience complète de 3 semaines. On l'intègre avec le facteur d'échelle pragmatique PSF = 11, ce qui donne 49,47 × 11 = 544,12 kgCO2e pour toute l'étude. Le site donne la même valeur avec un facteur multiplicatif de 11, et l'article annonce 544 115 g.
 
-### Absorption par un arbre
+#### Absorption par un arbre
 
-### Un arbre adulte absorbe environ 11 kg de CO2 par an. Il lui faut donc 4,5 ans pour une seule expérience et 49,5 ans pour toute l'étude, soit environ 593 mois-arbres comme dans l'article.
+Un arbre adulte absorbe environ 11 kg de CO2 par an. Il lui faut donc 4,5 ans pour une seule expérience et 49,5 ans pour toute l'étude, soit environ 593 mois-arbres comme dans l'article.
 
 ## 1.2 IA, traitement automatique des langues
 
----
-
-### L'entraînement de BERT demande 79 h sur 64 GPU Tesla V100 utilisés à 62,7 %. On compte 300 W par V100, et pas de mémoire car l'article ne la prend pas en compte pour cet exemple.
+L'entraînement de BERT demande 79 h sur 64 GPU Tesla V100 utilisés à 62,7 %. On compte 300 W par V100, et pas de mémoire car l'article ne la prend pas en compte pour cet exemple.
 
 | Paramètre | Valeur |
 | --- | :---: |
@@ -401,25 +363,23 @@ $$E = 79 \times (64 \times 300 \times 0{,}627) \times 1{,}67 \times 0{,}001 = \m
 
 $$C = 1\,588{,}23 \times 475 = \mathbf{754{,}41\ kgCO_2e}$$
 
-### On retrouve les 754 407 g de l'article. Il faudrait 68,6 ans à un arbre pour absorber un seul entraînement.
+On retrouve les 754 407 g de l'article. Il faudrait 68,6 ans à un arbre pour absorber un seul entraînement.
 
-### Avec un PSF de 100
+#### Avec un PSF de 100
 
-### La recherche des hyperparamètres oblige à relancer l'entraînement de nombreuses fois. Avec un PSF de 100 on obtient 754,41 × 100 = 75 440,74 kgCO2e, soit environ 75,4 tonnes, comme les 75 440 740 g de l'article.
+La recherche des hyperparamètres oblige à relancer l'entraînement de nombreuses fois. Avec un PSF de 100 on obtient 754,41 × 100 = 75 440,74 kgCO2e, soit environ 75,4 tonnes, comme les 75 440 740 g de l'article.
 
-### Sur le site Green Algorithms la version actuelle des données compte 250 W par V100 et donne 628,67 kg. En choisissant la version v2.0 des données, qui compte 300 W, le site retrouve exactement 754,41 kg.
+Sur le site Green Algorithms la version actuelle des données compte 250 W par V100 et donne 628,67 kg. En choisissant la version v2.0 des données, qui compte 300 W, le site retrouve exactement 754,41 kg.
 
 ## 2.1 Formule de l'EcoIndex dans le code de cnumr
 
----
-
-### La formule du cours est la suivante.
+La formule du cours est la suivante.
 
 $$EcoIndex = 100 - 5 \times \frac{3 \times Q(DOM) + 2 \times Q(requêtes) + Q(taille)}{6}$$
 
 $$Q(x) = (n - 1) + \frac{x - borneInf(n)}{borneSup(n) - borneInf(n)}$$
 
-### On a parcouru les projets de cnumr qui calculent l'EcoIndex.
+On a parcouru les projets de cnumr qui calculent l'EcoIndex.
 
 | Projet | Langage | Formule du cours | Remarque |
 | --- | :---: | :---: | --- |
@@ -430,8 +390,8 @@ $$Q(x) = (n - 1) + \frac{x - borneInf(n)}{borneSup(n) - borneInf(n)}$$
 | [lighthouse-plugin-ecoindex](https://github.com/cnumr/lighthouse-plugin-ecoindex) | TypeScript | Oui | Reprend le code de ecoindex_js |
 | [EcoIndex_BFF](https://github.com/cnumr/EcoIndex_BFF) | Go | Pas de calcul | Relaie les requêtes vers l'API Ecoindex |
 
-### Partout on retrouve les poids 3, 2 et 1 et la même fonction quantile. Le code cherche le premier intervalle qui contient la valeur, prend son numéro moins 1 et ajoute la position de la valeur entre les deux bornes, exactement comme dans le cours. Au-delà de la dernière borne le quantile est bloqué à 20.
+Partout on retrouve les poids 3, 2 et 1 et la même fonction quantile. Le code cherche le premier intervalle qui contient la valeur, prend son numéro moins 1 et ajoute la position de la valeur entre les deux bornes, exactement comme dans le cours. Au-delà de la dernière borne le quantile est bloqué à 20.
 
-### Les 21 bornes de chaque critère sont identiques à celles du dépôt [ecoindex_reference](https://github.com/cnumr/ecoindex_reference), même quand elles sont recopiées en dur.
+Les 21 bornes de chaque critère sont identiques à celles du dépôt [ecoindex_reference](https://github.com/cnumr/ecoindex_reference), même quand elles sont recopiées en dur.
 
-### Les seules différences portent sur l'arrondi. Certains projets arrondissent le score à l'entier et d'autres non. Pour les gaz à effet de serre et l'eau, tous utilisent les formules du cours $2 + 2 \times (50 - EcoIndex)/100$ et $3 + 3 \times (50 - EcoIndex)/100$, arrondies à deux décimales.
+Les seules différences portent sur l'arrondi. Certains projets arrondissent le score à l'entier et d'autres non. Pour les gaz à effet de serre et l'eau, tous utilisent les formules du cours $2 + 2 \times (50 - EcoIndex)/100$ et $3 + 3 \times (50 - EcoIndex)/100$, arrondies à deux décimales.
