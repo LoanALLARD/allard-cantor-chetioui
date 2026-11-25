@@ -452,3 +452,37 @@ ecoindex.fr ne permet pas toujours de tester les pages qui dépendent d'un état
 - L'EcoIndex ne compte que ce qui est chargé. Il ne mesure ni le traitement côté serveur ni le travail du processeur pour exécuter le JavaScript, ses résultats restent des ordres de grandeur.
 
 Pour la 2.5, on appliquera ce scénario aux pages d'accueil d'ecoindex.fr, leboncoin.fr et amazon.com, et on vérifiera les scores avec ecoindex.fr qui l'applique lui-même.
+
+## 2.4 Bornes des quantiles
+
+Les bornes viennent du fichier [`ecoindex_reference.json`](https://github.com/cnumr/ecoindex_reference/blob/main/ecoindex_reference.json) du dépôt cnumr/ecoindex_reference. On les a reportées dans l'onglet « Bornes EcoIndex » du tableur, qui servira aux calculs de la 2.5.
+
+Le fichier donne 21 bornes par critère, sous les clés `dom_size` pour le DOM, `response_size` pour la taille en Ko et `nb_request` pour les requêtes HTTP.
+
+| n | DOM (éléments) | Taille (Ko) | Requêtes HTTP |
+| :---: | :---: | :---: | :---: |
+| 0 | 0 | 0 | 0 |
+| 1 | 47 | 1,37 | 2 |
+| 2 | 75 | 144,7 | 15 |
+| 3 | 159 | 319,53 | 25 |
+| 4 | 233 | 479,46 | 34 |
+| 5 | 298 | 631,97 | 42 |
+| 6 | 358 | 783,38 | 49 |
+| 7 | 417 | 937,91 | 56 |
+| 8 | 476 | 1 098,62 | 63 |
+| 9 | 537 | 1 265,47 | 70 |
+| 10 | 603 | 1 448,32 | 78 |
+| 11 | 674 | 1 648,27 | 86 |
+| 12 | 753 | 1 876,08 | 95 |
+| 13 | 843 | 2 142,06 | 105 |
+| 14 | 949 | 2 465,37 | 117 |
+| 15 | 1 076 | 2 866,31 | 130 |
+| 16 | 1 237 | 3 401,59 | 147 |
+| 17 | 1 459 | 4 155,73 | 170 |
+| 18 | 1 801 | 5 400,08 | 205 |
+| 19 | 2 479 | 8 037,54 | 281 |
+| 20 | 594 601 | 223 212,26 | 3 920 |
+
+L'intervalle n va de la borne n − 1 à la borne n. Ce sont exactement les valeurs du cours. Comme les quantiles découpent les pages de référence en 20 groupes de même taille, le dernier intervalle regroupe les pages les plus extrêmes et il est donc très large (de 2 479 à 594 601 éléments pour le DOM).
+
+Le même fichier contient les seuils des notes, qu'on a mis à côté des bornes dans l'onglet. Une page est notée A au-dessus de 80, B au-dessus de 70, C au-dessus de 55, D au-dessus de 40, E au-dessus de 25, F au-dessus de 10 et G sinon. Il donne aussi des valeurs cibles (600 éléments, 1 024 Ko et 40 requêtes) et les médianes (693 éléments, 2 420 Ko et 78 requêtes).
