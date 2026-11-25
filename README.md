@@ -409,3 +409,46 @@ La partie entière $n - 1$ donne le numéro de l'intervalle, et la fraction donn
 Une page de 600 éléments DOM tombe entre les bornes 537 et 603, dans le 10e intervalle.
 
 $$Quantile(600) = (10 - 1) + \frac{600 - 537}{603 - 537} = 9 + \frac{63}{66} \approx 9{,}95$$
+
+## 2.3 Scénario adéquat pour évaluer l'EcoIndex
+
+L'EcoIndex se calcule pour une URL, donc page par page. Il sert à comparer des pages du même type, et la comparaison n'a de sens que si chaque page est mesurée exactement dans les mêmes conditions.
+
+### Le scénario d'ecoindex.fr
+
+On retient le scénario décrit sur la page [Comment ça marche](https://www.ecoindex.fr/comment-ca-marche/) du site, celle que cite le cours.
+
+Conditions de mesure :
+
+- Chrome headless avec une résolution de 1920 × 1080.
+- Un poste fixe avec une connexion ADSL, c'est l'hypothèse du cours derrière les 2 g éqCO2 et 3 cl d'eau par page.
+- Aucune donnée locale, le cache, les cookies et le localStorage sont vides.
+
+Déroulement :
+
+1. Ouvrir la page et attendre 3 secondes.
+2. Scroller jusqu'en bas de la page.
+3. Attendre encore 3 secondes, puis fermer la page.
+
+Les trois mesures sont relevées sur toute cette session : le nombre d'éléments du DOM (sans les enfants des éléments `svg`), le nombre de requêtes HTTP et le poids des données transférées.
+
+### Pourquoi ces choix
+
+- Le cache vide reproduit une première visite. Avec un cache rempli, une partie des fichiers ne passerait plus par le réseau et le poids serait sous-estimé.
+- Le scroll déclenche le chargement différé (lazy loading) des images et des contenus du bas de page, qui sinon ne seraient pas comptés.
+- Les attentes laissent aux scripts le temps de finir leurs requêtes.
+- Le poste fixe et la résolution fixée rendent les pages comparables entre elles. Un mobile recevrait souvent une autre version de la page, et une connexion 4G demande jusqu'à 23 fois plus d'énergie que l'ADSL pour transporter les mêmes données.
+
+### Évaluer un site entier
+
+Une page d'accueil ne suffit pas pour juger un site. Il faut choisir un parcours utilisateur représentatif, par exemple accueil, recherche, fiche produit et panier pour un site marchand. On mesure chaque page avec le même scénario puis on fait la moyenne des scores, comme le fait [GreenIT-Analysis](https://github.com/cnumr/GreenIT-Analysis).
+
+ecoindex.fr ne permet pas toujours de tester les pages qui dépendent d'un état, comme un panier ou un espace connecté. Pour celles-là il faut un outil qui rejoue le parcours, par exemple [GreenIT-Analysis-cli](https://github.com/cnumr/GreenIT-Analysis-cli) avec un scénario qui gère la connexion et les clics.
+
+### Limites
+
+- Deux mesures du même site peuvent différer à cause des publicités ou des mises à jour du contenu. Un bloqueur de publicité change aussi le résultat, il faut donc le désactiver et noter la date de la mesure.
+- Les outils n'appliquent pas tous ce scénario. GreenIT-Analysis tourne dans le navigateur de l'utilisateur, c'est pour ça qu'il donne souvent un score différent d'ecoindex.fr avec la même formule.
+- L'EcoIndex ne compte que ce qui est chargé. Il ne mesure ni le traitement côté serveur ni le travail du processeur pour exécuter le JavaScript, ses résultats restent des ordres de grandeur.
+
+Pour la 2.5, on appliquera ce scénario aux pages d'accueil d'ecoindex.fr, leboncoin.fr et amazon.com, et on vérifiera les scores avec ecoindex.fr qui l'applique lui-même.
