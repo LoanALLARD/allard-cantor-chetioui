@@ -395,3 +395,17 @@ Partout on retrouve les poids 3, 2 et 1 et la même fonction quantile. Le code c
 Les 21 bornes de chaque critère sont identiques à celles du dépôt [ecoindex_reference](https://github.com/cnumr/ecoindex_reference), même quand elles sont recopiées en dur.
 
 Les seules différences portent sur l'arrondi. Certains projets arrondissent le score à l'entier et d'autres non. Pour les gaz à effet de serre et l'eau, tous utilisent les formules du cours $2 + 2 \times (50 - EcoIndex)/100$ et $3 + 3 \times (50 - EcoIndex)/100$, arrondies à deux décimales.
+
+## 2.2 Fonction Quantile
+
+Pour chaque critère (DOM, requêtes, taille) on dispose de 21 bornes qui découpent les valeurs en 20 intervalles. On cherche l'intervalle n qui contient la valeur x, c'est-à-dire $borneInf(n) \le x < borneSup(n)$.
+
+$$Quantile(x) = (n - 1) + \frac{x - borneInf(n)}{borneSup(n) - borneInf(n)}$$
+
+La partie entière $n - 1$ donne le numéro de l'intervalle, et la fraction donne la position de x entre ses deux bornes. Le quantile varie donc de façon continue entre 0 et 20. Si x dépasse la dernière borne, le quantile vaut 20.
+
+#### Exemple
+
+Une page de 600 éléments DOM tombe entre les bornes 537 et 603, dans le 10e intervalle.
+
+$$Quantile(600) = (10 - 1) + \frac{600 - 537}{603 - 537} = 9 + \frac{63}{66} \approx 9{,}95$$
